@@ -94,8 +94,8 @@
             font-size: 16px;
         }
         .back-btn:hover { background-color: #c0392b; }
-        .cfee-section, .pnl-section, .manhour-section, .revenue-section, .adgen-section { margin-bottom: 20px; }
-        .cfee-section h2, .cfee-section h3, .manhour-section h2, .revenue-section h2, .adgen-section h2 {
+        .cfee-section, .pnl-section, .manhour-section, .revenue-section, .forecast-section, .employee-ad-section { margin-bottom: 20px; }
+        .cfee-section h2, .cfee-section h3, .manhour-section h2, .revenue-section h2, .forecast-section h2, .employee-ad-section h2 {
             margin: 0 0 0px 0;
             font-weight: 600;
             color: #34495e;
@@ -105,29 +105,29 @@
             font-weight: 600;
             color: #34495e;
         }
-        .cfee-section h2, .pnl-section h2, .manhour-section h2, .revenue-section h2, .adgen-section h2 {
+        .cfee-section h2, .pnl-section h2, .manhour-section h2, .revenue-section h2, .forecast-section h2, .employee-ad-section h2 {
             font-size: 18px;
             border-bottom: 2px solid #3498db;
             padding-bottom: 5px;
         }
         .cfee-section h3 { font-size: 16px; }
-        .cfee-table, .pnl-table, .manhour-table {
+        .cfee-table, .pnl-table, .manhour-table, .forecast-table {
             width: 100%;
             border-collapse: separate;
             border-spacing: 0;
             margin-top: 10px;
         }
-        .cfee-table th, .cfee-table td, .pnl-table th, .pnl-table td, .manhour-table th, .manhour-table td {
+        .cfee-table th, .cfee-table td, .pnl-table th, .pnl-table td, .manhour-table th, .manhour-table td, .forecast-table th, .forecast-table td {
             padding: 10px;
             text-align: left;
             border-bottom: 1px solid #e0e0e0;
         }
-        .cfee-table th, .pnl-table th, .manhour-table th {
+        .cfee-table th, .pnl-table th, .manhour-table th, .forecast-table th {
             background-color: #f8f9fa;
             font-weight: 600;
             color: #2c3e50;
         }
-        .cfee-table td, .pnl-table td, .manhour-table td {
+        .cfee-table td, .pnl-table td, .manhour-table td, .forecast-table td {
             background-color: #ffffff;
             text-align: right;
         }
@@ -135,7 +135,7 @@
             background-color: #f1f9ff;
             font-weight: 600;
         }
-        input[type="text"], input[type="number"], input[type="email"], input[type="date"], select, textarea {
+        input[type="text"], input[type="number"], input[type="email"], select, textarea {
             width: 100%;
             padding: 8px;
             margin: 3px 0;
@@ -144,14 +144,12 @@
             border-radius: 5px;
             font-size: 14px;
         }
-        textarea#job-ad-output {
-            width: 100%;
-            min-height: 300px;
+        textarea {
             resize: vertical;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: left; /* Align generated text to the left */
+            min-height: 80px;
+            width: 100%;
         }
-        .cfee-actions, .pnl-actions, .manhour-actions, .adgen-actions {
+        .cfee-actions, .pnl-actions, .manhour-actions, .forecast-actions, .employee-ad-actions {
             display: flex;
             justify-content: center;
             gap: 10px;
@@ -212,13 +210,14 @@
             margin: 10px 0;
         }
         .add-account-btn:hover { background-color: #2980b9; }
-        .pnl-form, .adgen-form {
+        .pnl-form, .revenue-form, .employee-ad-form {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 15px;
         }
-        .pnl-form label, .adgen-form label {
+        .pnl-form label, .revenue-form label, .employee-ad-form label {
             margin-bottom: 5px;
+            display: block;
         }
         .remove-account-btn {
             padding: 5px 10px;
@@ -237,29 +236,103 @@
             flex: 1;
             min-width: 150px;
         }
-        .days-selector {
+        .year-selector {
             display: flex;
             flex-wrap: wrap;
-            gap: 5px;
-            margin: 5px 0;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
         }
-        .day-btn {
-            padding: 5px 10px;
-            background-color: #e0e0e0;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-            font-size: 14px;
+        .year-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
         }
-        .day-btn.selected {
+        .year-btn {
+            padding: 10px 20px;
             background-color: #3498db;
             color: white;
+            border: none;
+            border-radius: 5px;
         }
-        .day-btn:hover {
-            background-color: #cccccc;
+        .year-btn:hover { background-color: #2980b9; }
+        .year-btn.active { background-color: #2c3e50; }
+        .month-selector {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .day-btn.selected:hover {
-            background-color: #2980b9;
+        .month-dropdown {
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #bdc3c7;
+            border-radius: 5px;
+            background-color: #ffffff;
+            color: #2c3e50;
+            width: 200px;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+        .month-dropdown:hover, .month-dropdown:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+        .month-form-container {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        #pnl-estimate-btn {
+            width: 210px;
+            box-sizing: border-box;
+        }
+        .estimate-label {
+            font-size: 12px;
+            color: #666;
+            margin-left: 5px;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .input-container {
+            display: flex;
+            align-items: center;
+        }
+        .ad-preview {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .generated-ad {
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+        }
+        .generated-ad h3 {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #34495e;
+        }
+        .generated-ad ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .generated-ad ul li {
+            margin-bottom: 5px;
+            position: relative;
+            padding-left: 20px;
+        }
+        .generated-ad ul li:before {
+            content: '✔';
+            position: absolute;
+            left: 0;
+            color: #3498db;
         }
 
         @media screen and (min-width: 768px) {
@@ -277,25 +350,28 @@
             .button-group button {
                 width: 200px;
             }
-            .cfee-section h2, .pnl-section h2, .manhour-section h2, .revenue-section h2, .adgen-section h2 { font-size: 24px; }
+            .cfee-section h2, .pnl-section h2, .manhour-section h2, .revenue-section h2, .forecast-section h2, .employee-ad-section h2 { font-size: 24px; }
             .cfee-section h3 { font-size: 20px; }
-            .cfee-table th, .cfee-table td, .pnl-table th, .pnl-table td, .manhour-table th, .manhour-table td {
+            .cfee-table th, .cfee-table td, .pnl-table th, .pnl-table td, .manhour-table th, .manhour-table td, .forecast-table th, .forecast-table td {
                 padding: 15px;
                 font-size: 20px;
             }
-            input[type="text"], input[type="number"], input[type="email"], input[type="date"], select, textarea {
+            input[type="text"], input[type="number"], input[type="email"], select, textarea {
                 padding: 15px;
                 margin: 8px 0;
                 border-radius: 8px;
                 font-size: 20px;
+            }
+            textarea {
+                min-height: 100px;
             }
             .accordion {
                 padding: 15px;
                 font-size: 20px;
                 border-radius: 8px;
             }
-            .cfee-actions, .pnl-actions, .manhour-actions, .adgen-actions { gap: 15px; margin-bottom: 30px; }
-            .cfee-actions button, .pnl-actions button, .manhour-actions button, .adgen-actions button {
+            .cfee-actions, .pnl-actions, .manhour-actions, .forecast-actions, .employee-ad-actions { gap: 15px; margin-bottom: 30px; }
+            .cfee-actions button, .pnl-actions button, .manhour-actions button, .forecast-actions button, .employee-ad-actions button {
                 padding: 12px 25px;
                 font-size: 16px;
                 border-radius: 6px;
@@ -303,32 +379,59 @@
             .payment-option { padding: 20px; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); margin-bottom: 30px; }
             .most-common { margin-top: 5px; margin-bottom: 15px; font-size: 16px; }
             .back-btn { bottom: 20px; right: 40px; }
-            .day-btn {
-                padding: 8px 15px;
+            .year-btn { padding: 12px 25px; font-size: 16px; }
+            .month-dropdown {
+                padding: 12px;
+                font-size: 18px;
+                width: 250px;
+            }
+            .month-form-container {
+                padding: 20px;
+            }
+            #pnl-estimate-btn {
+                width: 240px;
+            }
+            .estimate-label {
+                font-size: 14px;
+                margin-left: 8px;
+            }
+            .ad-preview {
+                padding: 20px;
+                margin-top: 30px;
+            }
+            .generated-ad {
                 font-size: 16px;
+            }
+            .generated-ad h3 {
+                font-size: 22px;
             }
         }
         @media print {
-            .main-actions, .cfee-actions, .pnl-actions, .manhour-actions, .adgen-actions, .back-btn, .add-account-btn, .remove-account-btn { display: none !important; }
-            #cfee-content:not(.hidden) ~ #pnl-content, #cfee-content:not(.hidden) ~ #manhour-content, #cfee-content:not(.hidden) ~ #revenue-content, #cfee-content:not(.hidden) ~ #adgen-content { display: none !important; }
-            #pnl-content:not(.hidden) ~ #cfee-content, #pnl-content:not(.hidden) ~ #manhour-content, #pnl-content:not(.hidden) ~ #revenue-content, #pnl-content:not(.hidden) ~ #adgen-content { display: none !important; }
-            #manhour-content:not(.hidden) ~ #cfee-content, #manhour-content:not(.hidden) ~ #pnl-content, #manhour-content:not(.hidden) ~ #revenue-content, #manhour-content:not(.hidden) ~ #adgen-content { display: none !important; }
-            #revenue-content:not(.hidden) ~ #cfee-content, #revenue-content:not(.hidden) ~ #pnl-content, #revenue-content:not(.hidden) ~ #manhour-content, #revenue-content:not(.hidden) ~ #adgen-content { display: none !important; }
-            #adgen-content:not(.hidden) ~ #cfee-content, #adgen-content:not(.hidden) ~ #pnl-content, #adgen-content:not(.hidden) ~ #manhour-content, #adgen-content:not(.hidden) ~ #revenue-content { display: none !important; }
+            .main-actions, .cfee-actions, .pnl-actions, .manhour-actions, .forecast-actions, .employee-ad-actions, .back-btn, .add-account-btn, .remove-account-btn, .year-selector, .year-buttons { display: none !important; }
+            #cfee-content:not(.hidden) ~ #pnl-content, #cfee-content:not(.hidden) ~ #manhour-content, #cfee-content:not(.hidden) ~ #revenue-content, #cfee-content:not(.hidden) ~ #forecast-content, #cfee-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            #pnl-content:not(.hidden) ~ #cfee-content, #pnl-content:not(.hidden) ~ #manhour-content, #pnl-content:not(.hidden) ~ #revenue-content, #pnl-content:not(.hidden) ~ #forecast-content, #pnl-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            #manhour-content:not(.hidden) ~ #cfee-content, #manhour-content:not(.hidden) ~ #pnl-content, #manhour-content:not(.hidden) ~ #revenue-content, #manhour-content:not(.hidden) ~ #forecast-content, #manhour-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            #revenue-content:not(.hidden) ~ #cfee-content, #revenue-content:not(.hidden) ~ #pnl-content, #revenue-content:not(.hidden) ~ #manhour-content, #revenue-content:not(.hidden) ~ #forecast-content, #revenue-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            #forecast-content:not(.hidden) ~ #cfee-content, #forecast-content:not(.hidden) ~ #pnl-content, #forecast-content:not(.hidden) ~ #manhour-content, #forecast-content:not(.hidden) ~ #revenue-content, #forecast-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            #employee-ad-content:not(.hidden) ~ #cfee-content, #employee-ad-content:not(.hidden) ~ #pnl-content, #employee-ad-content:not(.hidden) ~ #manhour-content, #employee-ad-content:not(.hidden) ~ #revenue-content, #employee-ad-content:not(.hidden) ~ #forecast-content { display: none !important; }
             .container { width: 100%; max-width: 680px; padding: 15px; margin: 0 auto; box-shadow: none; border-radius: 0; }
             header { border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; margin-bottom: 5px; }
             .logo img { max-width: 160px; }
             h1 { font-size: 22px; }
             .main-actions h2 { font-size: 20px; }
-            .cfee-section h2, .cfee-section h3, .pnl-section h2, .manhour-section h2, .revenue-section h2, .adgen-section h2 { font-size: 16px; margin: 0 0 8px 0; }
-            .cfee-section h2, .pnl-section h2, .manhour-section h2, .revenue-section h2, .adgen-section h2 { padding-bottom: 4px; }
-            .cfee-section, .pnl-section, .manhour-section, .revenue-section, .adgen-section { margin-bottom: 15px; }
-            .cfee-table th, .cfee-table td, .pnl-table th, .pnl-table td, .manhour-table th, .manhour-table td { padding: 8px; font-size: 12px; }
-            input[type="text"], input[type="number"], input[type="email"], input[type="date"], select, textarea {
+            .cfee-section h2, .cfee-section h3, .pnl-section h2, .manhour-section h2, .revenue-section h2, .forecast-section h2, .employee-ad-section h2 { font-size: 16px; margin: 0 0 8px 0; }
+            .cfee-section h2, .pnl-section h2, .manhour-section h2, .revenue-section h2, .forecast-section h2, .employee-ad-section h2 { padding-bottom: 4px; }
+            .cfee-section, .pnl-section, .manhour-section, .revenue-section, .forecast-section, .employee-ad-section { margin-bottom: 15px; }
+            .cfee-table, .pnl-table, .manhour-table, .forecast-table { margin-top: 8px; }
+            .cfee-table th, .cfee-table td, .pnl-table th, .pnl-table td, .manhour-table th, .manhour-table td, .forecast-table th, .forecast-table td { padding: 8px; font-size: 12px; }
+            input[type="text"], input[type="number"], input[type="email"], select, textarea {
                 padding: 6px;
                 margin: 2px 0;
                 border-radius: 4px;
                 font-size: 12px;
+            }
+            textarea {
+                min-height: 60px;
             }
             .accordion {
                 padding: 6px;
@@ -338,11 +441,19 @@
             .payment-option { padding: 12px; border-radius: 5px; box-shadow: none; margin-bottom: 12px; }
             .most-common { margin-top: -4px; margin-bottom: 4px; font-size: 10px; }
             .panel { max-height: none !important; }
+            .month-selector label { font-size: 14px; }
+            .month-dropdown { font-size: 12px; padding: 6px; width: 150px; }
+            .month-form-container { padding: 10px; }
+            .estimate-label { font-size: 10px; margin-left: 5px; }
+            .ad-preview { padding: 10px; margin-top: 15px; }
+            .generated-ad { font-size: 12px; line-height: 1.4; }
+            .generated-ad h3 { font-size: 14px; }
             @page { size: A4 portrait; margin: 2mm; }
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -360,7 +471,7 @@
                 <button id="cfee-btn">C-Fee Calculator</button>
                 <button id="pnl-btn">P&L Statement</button>
                 <button id="revenue-btn">Revenue Analysis</button>
-                <button id="adgen-btn">Employee Ad Generator</button>
+                <button id="employee-ad-btn">Employee Ad Generator</button>
             </div>
         </section>
 
@@ -428,9 +539,15 @@
                                     <label>Total Revenue (Cleaning Services):</label>
                                     <input type="text" class="number-input revenue-input" value="0.00">
                                     <label>Labor Costs:</label>
-                                    <input type="text" class="number-input labor-input" value="0.00">
+                                    <div class="input-container">
+                                        <input type="text" class="number-input labor-input" value="0.00">
+                                        <span class="estimate-label"></span>
+                                    </div>
                                     <label>Supplies:</label>
-                                    <input type="text" class="number-input supplies-input" value="0.00">
+                                    <div class="input-container">
+                                        <input type="text" class="number-input supplies-input" value="0.00">
+                                        <span class="estimate-label"></span>
+                                    </div>
                                 </div>
                                 <div>
                                     <label>Overhead Expenses:</label>
@@ -448,6 +565,7 @@
 
                 <section class="pnl-actions">
                     <button id="pnl-calculate-btn">Calculate</button>
+                    <button id="pnl-estimate-btn">Estimated Labor/Supplies</button>
                     <button id="pnl-print-btn">Print</button>
                     <button id="pnl-download-btn">Download</button>
                 </section>
@@ -493,318 +611,693 @@
             <div id="revenue-content" class="hidden">
                 <section class="revenue-section">
                     <h2>Revenue Analysis</h2>
-                    <p>Revenue Analysis functionality is under development.</p>
+                    <div class="year-selector">
+                        <div>
+                            <label for="start-year">Start Year:</label>
+                            <input type="number" id="start-year" value="2024" min="1900" max="2100">
+                        </div>
+                        <div>
+                            <label for="end-year">End Year:</label>
+                            <input type="number" id="end-year" value="2025" min="1900" max="2100">
+                        </div>
+                        <button id="generate-years">Generate Years</button>
+                        <button id="analysis-report-btn">Analysis Report</button>
+                        <input type="file" id="import-excel" accept=".xlsx, .xls" style="display: none;">
+                        <button id="import-btn">Import Excel</button>
+                        <button id="paste-profit-btn">Paste Profit</button>
+                        <button id="paste-cfees-btn">Paste CFees</button>
+                    </div>
+                    <textarea id="paste-data-input" rows="4" cols="50" placeholder="Paste CFees data here (e.g., Date<tab>Pmt#s<tab>Pmt Amt)" style="display: none; margin-top: 10px;"></textarea>
+                    <div id="year-buttons" class="year-buttons"></div>
+                    <div id="months-container">
+                        <div class="month-selector">
+                            <label for="month-dropdown">Select Month:</label>
+                            <select id="month-dropdown" class="month-dropdown"></select>
+                        </div>
+                        <div id="month-form-container" class="month-form-container"></div>
+                    </div>
                 </section>
                 <button id="revenue-back-btn" class="back-btn">Back</button>
             </div>
 
-            <div id="adgen-content" class="hidden">
-                <section class="adgen-section">
+            <div id="employee-ad-content" class="hidden">
+                <section class="employee-ad-section">
                     <h2>Employee Ad Generator</h2>
-                    <form class="adgen-form">
+                    <form class="employee-ad-form">
                         <div>
-                            <label for="adgen-location">Location (City/Area):</label>
-                            <input type="text" id="adgen-location" name="adgen-location" value="">
-                            <label for="adgen-schedule-type">Schedule Type:</label>
-                            <select id="adgen-schedule-type" name="adgen-schedule-type">
+                            <label for="ad-location">Location (City/Area):</label>
+                            <input type="text" id="ad-location" name="ad-location" placeholder="e.g., Philadelphia, PA">
+                            <label for="ad-schedule-type">Schedule Type:</label>
+                            <select id="ad-schedule-type" name="ad-schedule-type">
                                 <option value="Full-Time">Full-Time</option>
                                 <option value="Part-Time">Part-Time</option>
                             </select>
-                            <label for="adgen-time-of-day">Time of Day:</label>
-                            <select id="adgen-time-of-day" name="adgen-time-of-day">
-                                <option value="Daytime">Daytime</option>
-                                <option value="Evening">Evening</option>
-                            </select>
-                            <label>Work Days:</label>
-                            <div class="days-selector" id="adgen-work-days">
-                                <button type="button" class="day-btn" data-day="Monday">Mon</button>
-                                <button type="button" class="day-btn" data-day="Tuesday">Tue</button>
-                                <button type="button" class="day-btn" data-day="Wednesday">Wed</button>
-                                <button type="button" class="day-btn" data-day="Thursday">Thu</button>
-                                <button type="button" class="day-btn" data-day="Friday">Fri</button>
-                                <button type="button" class="day-btn" data-day="Saturday">Sat</button>
-                                <button type="button" class="day-btn" data-day="Sunday">Sun</button>
-                            </div>
-                            <label for="adgen-pay">Pay (Hourly Wage or Range):</label>
-                            <input type="text" id="adgen-pay" name="adgen-pay" value="">
-                            <label for="adgen-start-date">Start Date:</label>
-                            <input type="text" id="adgen-start-date" name="adgen-start-date" value="ASAP">
+                            <label for="ad-schedule-details">Schedule Details (Days/Hours):</label>
+                            <input type="text" id="ad-schedule-details" name="ad-schedule-details" placeholder="e.g., Mon-Fri, 6PM-10PM">
+                            <label for="ad-pay">Pay (Hourly Wage or Range):</label>
+                            <input type="text" id="ad-pay" name="ad-pay" placeholder="e.g., $15-$18/hr">
+                            <label for="ad-start-date">Start Date:</label>
+                            <input type="text" id="ad-start-date" name="ad-start-date" placeholder="e.g., ASAP or 11/01/2025">
                         </div>
                         <div>
-                            <label for="adgen-perks">Other Perks (Optional):</label>
-                            <input type="text" id="adgen-perks" name="adgen-perks" value="">
-                            <label for="adgen-experience">Experience Requirement:</label>
-                            <select id="adgen-experience" name="adgen-experience">
-                                <option value="Less than 1 year (Will Train)">Less than 1 year (Will Train)</option>
-                                <option value="1 Year Experience">1 Year Experience</option>
-                                <option value="2 Years Experience">2 Years Experience</option>
-                                <option value="3 Years Experience">3 Years Experience</option>
-                                <option value="4 Years Experience">4 Years Experience</option>
-                                <option value="5+ Years Experience">5+ Years Experience</option>
+                            <label for="ad-perks">Other Perks (Optional, one per line):</label>
+                            <textarea id="ad-perks" name="ad-perks" placeholder="e.g., Uniforms provided"></textarea>
+                            <label for="ad-experience">Experience Requirements:</label>
+                            <select id="ad-experience" name="ad-experience">
+                                <option value="No experience required – Will Train!">No experience required – Will Train!</option>
+                                <option value="1+ years experience required">1+ years experience required</option>
+                                <option value="2+ years experience required">2+ years experience required</option>
+                                <option value="3+ years experience required">3+ years experience required</option>
+                                <option value="4+ years experience required">4+ years experience required</option>
+                                <option value="5+ years experience required">5+ years experience required</option>
                             </select>
-                            <label for="adgen-transportation">Transportation Requirement:</label>
-                            <select id="adgen-transportation" name="adgen-transportation">
-                                <option value="Transportation Provided">Transportation Provided</option>
-                                <option value="Must have valid license and reliable vehicle">Must have valid license and reliable vehicle</option>
-                            </select>
-                            <label for="adgen-lifting">Lifting Capacity (lbs):</label>
-                            <input type="number" id="adgen-lifting" name="adgen-lifting" value="25" min="0">
-                            <label for="adgen-email">Contact Email:</label>
-                            <input type="email" id="adgen-email" name="adgen-email" value="">
+                            <label for="ad-transportation">Transportation Requirements:</label>
+                            <input type="text" id="ad-transportation" name="ad-transportation" placeholder="e.g., Valid driver’s license required">
+                            <label for="ad-lifting">Lifting Capacity (lbs):</label>
+                            <input type="number" id="ad-lifting" name="ad-lifting" value="25" min="0">
+                            <label for="ad-email">Contact Email:</label>
+                            <input type="email" id="ad-email" name="ad-email" placeholder="hiring@company.com">
                         </div>
                     </form>
                 </section>
-                <section class="adgen-actions">
-                    <button id="adgen-generate-btn">Generate Ad</button>
-                    <button id="adgen-copy-btn" disabled>Copy to Clipboard</button>
+                <section class="employee-ad-actions">
+                    <button id="generate-ad-btn">Generate Ad</button>
                 </section>
-                <section class="adgen-section">
+                <section class="employee-ad-section ad-preview">
                     <h2>Generated Job Ad</h2>
-                    <textarea id="job-ad-output" readonly placeholder="Your job ad will appear here after generation."></textarea>
+                    <div id="ad-output" class="generated-ad"></div>
                 </section>
-                <button id="adgen-back-btn" class="back-btn">Back</button>
+                <button id="employee-ad-back-btn" class="back-btn">Back</button>
             </div>
         </div>
     </div>
 
     <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        // Navigation elements
-        const mainActions = document.getElementById('main-actions');
-        const cfeeBtn = document.getElementById('cfee-btn');
-        const pnlBtn = document.getElementById('pnl-btn');
-        const manhourBtn = document.getElementById('manhour-btn');
-        const revenueBtn = document.getElementById('revenue-btn');
-        const adgenBtn = document.getElementById('adgen-btn');
-        const cfeeContent = document.getElementById('cfee-content');
-        const pnlContent = document.getElementById('pnl-content');
-        const manhourContent = document.getElementById('manhour-content');
-        const revenueContent = document.getElementById('revenue-content');
-        const adgenContent = document.getElementById('adgen-content');
-        const cfeeBackBtn = document.getElementById('cfee-back-btn');
-        const pnlBackBtn = document.getElementById('pnl-back-btn');
-        const manhourBackBtn = document.getElementById('manhour-back-btn');
-        const revenueBackBtn = document.getElementById('revenue-back-btn');
-        const adgenBackBtn = document.getElementById('adgen-back-btn');
+        document.addEventListener('DOMContentLoaded', () => {
+            const { jsPDF } = window.jspdf;
 
-        // Verify elements exist
-        if (!mainActions || !cfeeBtn || !pnlBtn || !manhourBtn || !revenueBtn || !adgenBtn ||
-            !cfeeContent || !pnlContent || !manhourContent || !revenueContent || !adgenContent) {
-            console.error('One or more navigation elements are missing in the DOM');
-            return;
-        }
+            const mainActions = document.getElementById('main-actions');
+            const cfeeBtn = document.getElementById('cfee-btn');
+            const pnlBtn = document.getElementById('pnl-btn');
+            const manhourBtn = document.getElementById('manhour-btn');
+            const revenueBtn = document.getElementById('revenue-btn');
+            const employeeAdBtn = document.getElementById('employee-ad-btn');
+            const cfeeContent = document.getElementById('cfee-content');
+            const pnlContent = document.getElementById('pnl-content');
+            const manhourContent = document.getElementById('manhour-content');
+            const revenueContent = document.getElementById('revenue-content');
+            const employeeAdContent = document.getElementById('employee-ad-content');
+            const cfeeBackBtn = document.getElementById('cfee-back-btn');
+            const pnlBackBtn = document.getElementById('pnl-back-btn');
+            const manhourBackBtn = document.getElementById('manhour-back-btn');
+            const revenueBackBtn = document.getElementById('revenue-back-btn');
+            const employeeAdBackBtn = document.getElementById('employee-ad-back-btn');
 
-        // Toggle section function
-        function toggleSection(activeSection) {
-            console.log('Toggling section:', activeSection.id);
-            mainActions.classList.toggle('hidden', activeSection !== mainActions);
-            cfeeContent.classList.toggle('hidden', activeSection !== cfeeContent);
-            pnlContent.classList.toggle('hidden', activeSection !== pnlContent);
-            manhourContent.classList.toggle('hidden', activeSection !== manhourContent);
-            revenueContent.classList.toggle('hidden', activeSection !== revenueContent);
-            adgenContent.classList.toggle('hidden', activeSection !== adgenContent);
-            window.scrollTo(0, 0);
-        }
+            const calculateBtn = document.getElementById('calculate-btn');
+            const printBtn = document.getElementById('print-btn');
+            const downloadBtn = document.getElementById('download-btn');
+            const container = document.querySelector('.container');
+            const actionsSection = document.querySelector('.cfee-actions');
 
-        // Attach event listeners to main menu buttons
-        cfeeBtn.addEventListener('click', () => {
-            console.log('C-Fee Calculator button clicked');
-            toggleSection(cfeeContent);
-        });
-        pnlBtn.addEventListener('click', () => {
-            console.log('P&L Statement button clicked');
-            toggleSection(pnlContent);
-        });
-        manhourBtn.addEventListener('click', () => {
-            console.log('Man Hour Calculator button clicked');
-            toggleSection(manhourContent);
-        });
-        revenueBtn.addEventListener('click', () => {
-            console.log('Revenue Analysis button clicked');
-            toggleSection(revenueContent);
-        });
-        adgenBtn.addEventListener('click', () => {
-            console.log('Employee Ad Generator button clicked');
-            toggleSection(adgenContent);
-        });
+            const startYearInput = document.getElementById('start-year');
+            const endYearInput = document.getElementById('end-year');
+            const generateYearsBtn = document.getElementById('generate-years');
+            const analysisReportBtn = document.getElementById('analysis-report-btn');
+            const yearButtonsContainer = document.getElementById('year-buttons');
+            const monthsContainer = document.getElementById('months-container');
+            const importBtn = document.getElementById('import-btn');
+            const importExcelInput = document.getElementById('import-excel');
+            const pasteProfitBtn = document.getElementById('paste-profit-btn');
+            const pasteCfeesBtn = document.getElementById('paste-cfees-btn');
+            const pasteDataInput = document.getElementById('paste-data-input');
 
-        // Back button event listeners
-        cfeeBackBtn.addEventListener('click', () => toggleSection(mainActions));
-        pnlBackBtn.addEventListener('click', () => toggleSection(mainActions));
-        manhourBackBtn.addEventListener('click', () => toggleSection(mainActions));
-        revenueBackBtn.addEventListener('click', () => toggleSection(mainActions));
-        adgenBackBtn.addEventListener('click', () => toggleSection(mainActions));
+            // Navigation
+            cfeeBtn.addEventListener('click', () => toggleSection(cfeeContent));
+            pnlBtn.addEventListener('click', () => toggleSection(pnlContent));
+            manhourBtn.addEventListener('click', () => toggleSection(manhourContent));
+            revenueBtn.addEventListener('click', () => toggleSection(revenueContent));
+            employeeAdBtn.addEventListener('click', () => toggleSection(employeeAdContent));
+            cfeeBackBtn.addEventListener('click', () => toggleSection(mainActions));
+            pnlBackBtn.addEventListener('click', () => toggleSection(mainActions));
+            manhourBackBtn.addEventListener('click', () => toggleSection(mainActions));
+            revenueBackBtn.addEventListener('click', () => toggleSection(mainActions));
+            employeeAdBackBtn.addEventListener('click', () => toggleSection(mainActions));
 
-        // C-Fee Calculator
-        const calculateBtn = document.getElementById('calculate-btn');
-        const printBtn = document.getElementById('print-btn');
-        const downloadBtn = document.getElementById('download-btn');
-        const container = document.querySelector('.container');
-        const actionsSection = document.querySelector('.cfee-actions');
+            function toggleSection(activeSection) {
+                mainActions.classList.toggle('hidden', activeSection !== mainActions);
+                cfeeContent.classList.toggle('hidden', activeSection !== cfeeContent);
+                pnlContent.classList.toggle('hidden', activeSection !== pnlContent);
+                manhourContent.classList.toggle('hidden', activeSection !== manhourContent);
+                revenueContent.classList.toggle('hidden', activeSection !== revenueContent);
+                employeeAdContent.classList.toggle('hidden', activeSection !== employeeAdContent);
+            }
 
-        calculateBtn.addEventListener('click', () => {
-            const monthlyAmount = parseFloat(document.getElementById('monthly-amount').value.replace(/,/g, '')) || 0;
-            const cfiFactor = parseFloat(document.getElementById('cfi-factor').value) || 0;
-            const cfeeAmount = monthlyAmount * cfiFactor;
-            const cashDiscountValue = cfeeAmount * 0.15;
-            const totalDue = cfeeAmount - cashDiscountValue;
-            const paymentAmount = cfeeAmount / 4;
-            const interestValue = cfeeAmount * 0.12;
-            const financedTotalValue = cfeeAmount + interestValue;
-            const monthlyPayment = financedTotalValue / 12;
+            let accCount = 1;
 
-            document.getElementById('cfi-factor-cash').textContent = cfiFactor.toFixed(2);
-            document.getElementById('cfee-applied-cash').textContent = monthlyAmount.toLocaleString('en-US', { minimumFractionDigits: 2 });
-            document.getElementById('cfee-amount-cash').textContent = `$${cfeeAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('cash-discount').textContent = `($${cashDiscountValue.toLocaleString('en-US', { minimumFractionDigits: 2 })})`
-            document.getElementById('total-due-cash').textContent = `$${totalDue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('cfi-factor-120').textContent = cfiFactor.toFixed(2);
-            document.getElementById('cfee-applied-120').textContent = monthlyAmount.toLocaleString('en-US', { minimumFractionDigits: 2 });
-            document.getElementById('cfee-amount-120').textContent = `$${cfeeAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('payment-amount-120').textContent = paymentAmount.toLocaleString('en-US', { minimumFractionDigits: 2 });
-            document.getElementById('cfi-factor-financed').textContent = cfiFactor.toFixed(2);
-            document.getElementById('cfee-applied-financed').textContent = monthlyAmount.toLocaleString('en-US', { minimumFractionDigits: 2 });
-            document.getElementById('cfee-amount-financed').textContent = `$${cfeeAmount.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('interest').textContent = `$${interestValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('financed-total').textContent = `$${financedTotalValue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('monthly-payment-financed').textContent = `$${monthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-        });
+            function toggleAccordion() {
+                this.classList.toggle('active');
+                const panel = this.nextElementSibling;
+                if (panel.style.maxHeight) {
+                    panel.style.maxHeight = null;
+                } else {
+                    panel.style.maxHeight = panel.scrollHeight + 'px';
+                }
+            }
 
-        printBtn.addEventListener('click', () => window.print());
-        downloadBtn.addEventListener('click', async () => {
-            if (window.jspdf) {
-                const { jsPDF } = window.jspdf;
+            function formatNumberInputs(container) {
+                const numberInputs = container.querySelectorAll('input[type="text"].number-input');
+                numberInputs.forEach(input => {
+                    input.addEventListener('blur', () => {
+                        const value = parseFloat(input.value.replace(/,/g, '')) || 0;
+                        input.value = value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                    });
+                });
+            }
+
+            // P&L Setup
+            document.querySelectorAll('#accounts-container .accordion').forEach(acc => {
+                acc.addEventListener('click', toggleAccordion);
+                const panel = acc.nextElementSibling;
+                const nameInput = panel.querySelector('.account-name-input');
+                nameInput.addEventListener('input', function() {
+                    const title = acc.querySelector('.accordion-title');
+                    title.textContent = this.value || `Account ${accCount}`;
+                });
+            });
+
+            document.getElementById('add-account-btn').addEventListener('click', () => {
+                accCount++;
+                const newAcc = document.createElement('button');
+                newAcc.className = 'accordion';
+                newAcc.innerHTML = `<span class="accordion-title">Account ${accCount}</span><button class="remove-account-btn">Remove</button>`;
+                const newPanel = document.createElement('div');
+                newPanel.className = 'panel';
+                newPanel.innerHTML = `
+                    <input type="text" class="account-name-input" value="Account ${accCount}">
+                    <form class="pnl-form">
+                        <div>
+                            <label>Total Revenue (Cleaning Services):</label>
+                            <input type="text" class="number-input revenue-input" value="0.00">
+                            <label>Labor Costs:</label>
+                            <div class="input-container">
+                                <input type="text" class="number-input labor-input" value="0.00">
+                                <span class="estimate-label"></span>
+                            </div>
+                            <label>Supplies:</label>
+                            <div class="input-container">
+                                <input type="text" class="number-input supplies-input" value="0.00">
+                                <span class="estimate-label"></span>
+                            </div>
+                        </div>
+                        <div>
+                            <label>Overhead Expenses:</label>
+                            <input type="text" class="number-input overhead-input" value="0.00">
+                            <label>Cfees:</label>
+                            <input type="text" class="number-input cfees-input" value="0.00">
+                            <label>Cost of Doing Business (%):</label>
+                            <input type="number" class="codb-input" value="0" step="0">
+                        </div>
+                    </form>
+                `;
+                document.getElementById('accounts-container').appendChild(newAcc);
+                document.getElementById('accounts-container').appendChild(newPanel);
+
+                newAcc.addEventListener('click', toggleAccordion);
+                newPanel.querySelector('.account-name-input').addEventListener('input', function() {
+                    newAcc.querySelector('.accordion-title').textContent = this.value || `Account ${accCount}`;
+                });
+                newAcc.querySelector('.remove-account-btn').addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    newAcc.remove();
+                    newPanel.remove();
+                    accCount--;
+                });
+                formatNumberInputs(newPanel);
+            });
+
+            formatNumberInputs(document);
+
+            // Revenue Analysis
+            const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            let revenueData = {};
+
+            function generateMonthDropdown(year) {
+                const monthDropdown = document.getElementById('month-dropdown');
+                const formContainer = document.getElementById('month-form-container');
+                monthDropdown.innerHTML = '';
+
+                months.forEach((month, index) => {
+                    const key = `${month} ${year}`;
+                    if (!revenueData[key]) {
+                        revenueData[key] = { profit: 0, labor: 0, expenses: 0 };
+                    }
+                    const option = document.createElement('option');
+                    option.value = key;
+                    option.textContent = month;
+                    monthDropdown.appendChild(option);
+                });
+
+                function updateForm() {
+                    const selectedKey = monthDropdown.value;
+                    formContainer.innerHTML = `
+                        <form class="revenue-form">
+                            <div>
+                                <label>Profit:</label>
+                                <input type="text" class="number-input profit-input" value="${revenueData[selectedKey].profit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}">
+                                <label>Labor:</label>
+                                <input type="text" class="number-input labor-input" value="${revenueData[selectedKey].labor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}">
+                                <label>CFees:</label>
+                                <input type="text" class="number-input expenses-input" value="${revenueData[selectedKey].expenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}">
+                            </div>
+                        </form>
+                    `;
+
+                    const inputs = formContainer.querySelectorAll('.number-input');
+                    inputs.forEach(input => {
+                        input.addEventListener('blur', () => {
+                            const value = parseFloat(input.value.replace(/,/g, '')) || 0;
+                            input.value = value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                            if (input.classList.contains('profit-input')) revenueData[selectedKey].profit = value;
+                            if (input.classList.contains('labor-input')) revenueData[selectedKey].labor = value;
+                            if (input.classList.contains('expenses-input')) revenueData[selectedKey].expenses = value;
+                        });
+                    });
+                }
+
+                updateForm();
+                monthDropdown.addEventListener('change', updateForm);
+            }
+
+            function generateYearButtons(startYear, endYear) {
+                yearButtonsContainer.innerHTML = '';
+                for (let year = startYear; year <= endYear; year++) {
+                    const btn = document.createElement('button');
+                    btn.className = 'year-btn';
+                    btn.textContent = year;
+                    btn.addEventListener('click', () => {
+                        document.querySelectorAll('.year-btn').forEach(b => b.classList.remove('active'));
+                        btn.classList.add('active');
+                        generateMonthDropdown(year);
+                    });
+                    yearButtonsContainer.appendChild(btn);
+                }
+                const firstBtn = yearButtonsContainer.querySelector('.year-btn');
+                if (firstBtn) {
+                    firstBtn.classList.add('active');
+                    generateMonthDropdown(startYear);
+                }
+            }
+
+            generateYearsBtn.addEventListener('click', () => {
+                const startYear = parseInt(startYearInput.value) || 2020;
+                const endYear = parseInt(endYearInput.value) || 2025;
+                if (startYear <= endYear) {
+                    generateYearButtons(startYear, endYear);
+                } else {
+                    alert('Start Year must be less than or equal to End Year');
+                }
+            });
+
+            analysisReportBtn.addEventListener('click', () => {
+                const startYear = parseInt(startYearInput.value) || 2020;
+                const endYear = parseInt(endYearInput.value) || 2025;
+                const reportData = [];
+                for (let year = startYear; year <= endYear; year++) {
+                    months.forEach(month => {
+                        const key = `${month} ${year}`;
+                        if (revenueData[key]) {
+                            reportData.push({
+                                label: key,
+                                profit: revenueData[key].profit,
+                                labor: revenueData[key].labor,
+                                expenses: revenueData[key].expenses
+                            });
+                        }
+                    });
+                }
+                const encodedData = encodeURIComponent(JSON.stringify(reportData));
+                window.open(`analysis-report.html?data=${encodedData}`, '_blank');
+            });
+
+            importBtn.addEventListener('click', () => {
+                importExcelInput.click();
+            });
+
+            importExcelInput.addEventListener('change', (event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const data = new Uint8Array(e.target.result);
+                        const workbook = XLSX.read(data, { type: 'array', dateNF: 'mm/dd/yyyy' });
+                        const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                        const jsonData = XLSX.utils.sheet_to_json(firstSheet, { header: ['Date', 'Amount'], range: 0, raw: false, dateNF: 'mm/dd/yyyy' });
+
+                        const aggregatedData = {};
+                        jsonData.forEach((row, index) => {
+                            if (index === 0) return;
+
+                            let dateStr = row['Date'];
+                            let amount = row['Amount'];
+
+                            if (typeof amount === 'string') {
+                                amount = parseFloat(amount.replace(/,/g, '')) || 0;
+                            } else if (typeof amount !== 'number') {
+                                amount = 0;
+                            }
+
+                            if (typeof dateStr === 'number') {
+                                const date = XLSX.SSF.parse_date_code(dateStr);
+                                if (date) {
+                                    dateStr = `${date.m}/${date.d}/${date.y}`;
+                                } else {
+                                    return;
+                                }
+                            } else if (typeof dateStr !== 'string') {
+                                return;
+                            }
+
+                            let dateParts = dateStr.includes('/') ? dateStr.split('/') : dateStr.split('-');
+                            const month = parseInt(dateParts[0], 10);
+                            const year = parseInt(dateParts[2], 10);
+                            const fullYear = year < 100 ? 2000 + year : year;
+                            const monthName = months[month - 1];
+
+                            if (!monthName) return;
+
+                            const key = `${monthName} ${fullYear}`;
+                            if (!aggregatedData[key]) {
+                                aggregatedData[key] = { profit: 0, labor: 0, expenses: 0 };
+                            }
+                            aggregatedData[key].profit += amount;
+                        });
+
+                        Object.keys(aggregatedData).forEach(key => {
+                            revenueData[key] = {
+                                profit: aggregatedData[key].profit,
+                                labor: revenueData[key]?.labor || 0,
+                                expenses: revenueData[key]?.expenses || 0
+                            };
+                        });
+
+                        const activeYearBtn = yearButtonsContainer.querySelector('.year-btn.active');
+                        if (activeYearBtn) {
+                            const activeYear = parseInt(activeYearBtn.textContent);
+                            generateMonthDropdown(activeYear);
+                        }
+                    };
+                    reader.readAsArrayBuffer(file);
+                    importExcelInput.value = '';
+                }
+            });
+
+            pasteProfitBtn.addEventListener('click', () => {
+                if (pasteDataInput.style.display === 'none' || pasteDataInput.style.display === '') {
+                    pasteDataInput.style.display = 'block';
+                    pasteDataInput.placeholder = "Paste profit data here (e.g., MM-DD-YY<tab>Amount)";
+                    pasteProfitBtn.textContent = 'Submit Profit Data';
+                } else {
+                    const pastedText = pasteDataInput.value.trim();
+                    if (pastedText) {
+                        processPastedData(pastedText, 'profit');
+                        pasteDataInput.style.display = 'none';
+                        pasteProfitBtn.textContent = 'Paste Profit';
+                        pasteDataInput.value = '';
+                    } else {
+                        alert('Please paste some profit data before submitting.');
+                    }
+                }
+            });
+
+            function processPastedData(text, type) {
+                const lines = text.split('\n');
+                const aggregatedData = {};
+
+                lines.forEach((line, index) => {
+                    const trimmedLine = line.trim();
+                    if (!trimmedLine) return;
+
+                    let parts = trimmedLine.split(/\t/);
+                    if (parts.length < 2) return;
+
+                    let [dateStr, amountStr] = parts;
+                    let amount = parseFloat(amountStr.replace(/,/g, '')) || 0;
+
+                    let dateParts = dateStr.split('-');
+                    if (dateParts.length !== 3) return;
+
+                    const month = parseInt(dateParts[0], 10);
+                    const year = parseInt(dateParts[2], 10);
+                    const fullYear = year < 100 ? 2000 + year : year;
+                    const monthName = months[month - 1];
+
+                    if (!monthName) return;
+
+                    const key = `${monthName} ${fullYear}`;
+                    if (!aggregatedData[key]) {
+                        aggregatedData[key] = { profit: 0, labor: 0, expenses: 0 };
+                    }
+                    if (type === 'profit') {
+                        aggregatedData[key].profit += amount;
+                    }
+                });
+
+                Object.keys(aggregatedData).forEach(key => {
+                    revenueData[key] = {
+                        profit: revenueData[key]?.profit || 0 + aggregatedData[key].profit,
+                        labor: revenueData[key]?.labor || 0,
+                        expenses: revenueData[key]?.expenses || 0
+                    };
+                });
+
+                const activeYearBtn = yearButtonsContainer.querySelector('.year-btn.active');
+                if (activeYearBtn) {
+                    const activeYear = parseInt(activeYearBtn.textContent);
+                    generateMonthDropdown(activeYear);
+                }
+            }
+
+            pasteCfeesBtn.addEventListener('click', () => {
+                if (pasteDataInput.style.display === 'none' || pasteDataInput.style.display === '') {
+                    pasteDataInput.style.display = 'block';
+                    pasteDataInput.placeholder = "Paste CFees data here (e.g., Date<tab>Pmt#s<tab>Pmt Amt)";
+                    pasteCfeesBtn.textContent = 'Submit CFees Data';
+                } else {
+                    const pastedText = pasteDataInput.value.trim();
+                    if (pastedText) {
+                        processPastedCFees(pastedText);
+                        pasteDataInput.style.display = 'none';
+                        pasteCfeesBtn.textContent = 'Paste CFees';
+                        pasteDataInput.value = '';
+                    } else {
+                        alert('Please paste some CFees data before submitting.');
+                    }
+                }
+            });
+
+            function processPastedCFees(text) {
+                const lines = text.split('\n');
+                const monthsMap = {};
+
+                lines.forEach((line, index) => {
+                    if (index === 0) return;
+
+                    const trimmedLine = line.trim();
+                    if (!trimmedLine) return;
+
+                    const parts = trimmedLine.split(/\t/);
+                    if (parts.length < 3) return;
+
+                    const dateStr = parts[0];
+                    const pmtCount = parseInt(parts[1]) || 0;
+                    const pmtAmt = parseFloat(parts[2].replace(/,/g, '')) || 0;
+
+                    if (pmtAmt <= 0 || pmtCount <= 0) return;
+
+                    const dateParts = dateStr.split('-');
+                    if (dateParts.length !== 3) return;
+
+                    const month = parseInt(dateParts[0], 10) - 1;
+                    const day = parseInt(dateParts[1], 10);
+                    const year = parseInt(dateParts[2], 10);
+                    const fullYear = year < 100 ? 2000 + year : year;
+
+                    const startDate = new Date(fullYear, month, day);
+
+                    for (let i = 0; i < pmtCount; i++) {
+                        const paymentDate = new Date(startDate);
+                        paymentDate.setMonth(startDate.getMonth() + i);
+                        const monthIndex = paymentDate.getMonth();
+                        const paymentYear = paymentDate.getFullYear();
+                        const key = `${months[monthIndex]} ${paymentYear}`;
+
+                        if (!monthsMap[key]) {
+                            monthsMap[key] = { profit: 0, labor: 0, expenses: 0 };
+                        }
+                        monthsMap[key].expenses += pmtAmt;
+                    }
+                });
+
+                Object.keys(monthsMap).forEach(key => {
+                    revenueData[key] = {
+                        profit: revenueData[key]?.profit || 0,
+                        labor: revenueData[key]?.labor || 0,
+                        expenses: (revenueData[key]?.expenses || 0) + monthsMap[key].expenses
+                    };
+                });
+
+                const activeYearBtn = yearButtonsContainer.querySelector('.year-btn.active');
+                if (activeYearBtn) {
+                    const activeYear = parseInt(activeYearBtn.textContent);
+                    generateMonthDropdown(activeYear);
+                } else {
+                    const years = Object.keys(revenueData).map(key => parseInt(key.split(' ')[1])).sort();
+                    const defaultYear = years.length ? years[0] : parseInt(startYearInput.value) || 2020;
+                    generateYearButtons(defaultYear, parseInt(endYearInput.value) || defaultYear);
+                    generateMonthDropdown(defaultYear);
+                }
+            }
+
+            generateYearButtons(2020, 2025);
+
+            calculateBtn.addEventListener('click', () => {
+                const monthlyAmount = parseFloat(document.getElementById('monthly-amount').value.replace(/,/g, '')) || 0;
+                const cfiFactor = parseFloat(document.getElementById('cfi-factor').value) || 0;
+                const cfeeAmount = monthlyAmount * cfiFactor;
+                const cashDiscountValue = cfeeAmount * 0.15;
+                const totalDue = cfeeAmount - cashDiscountValue;
+                const paymentAmount = cfeeAmount / 4;
+                const interestValue = cfeeAmount * 0.12;
+                const financedTotalValue = cfeeAmount + interestValue;
+                const monthlyPayment = financedTotalValue / 12;
+
+                document.getElementById('cfi-factor-cash').textContent = cfiFactor.toFixed(2);
+                document.getElementById('cfee-applied-cash').textContent = monthlyAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                document.getElementById('cfee-amount-cash').textContent = `$${cfeeAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('cash-discount').textContent = `($${cashDiscountValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`;
+                document.getElementById('total-due-cash').textContent = `$${totalDue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('cfi-factor-120').textContent = cfiFactor.toFixed(2);
+                document.getElementById('cfee-applied-120').textContent = monthlyAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                document.getElementById('cfee-amount-120').textContent = `$${cfeeAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('payment-amount-120').textContent = paymentAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                document.getElementById('cfi-factor-financed').textContent = cfiFactor.toFixed(2);
+                document.getElementById('cfee-applied-financed').textContent = monthlyAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                document.getElementById('cfee-amount-financed').textContent = `$${cfeeAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('interest').textContent = `$${interestValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('financed-total').textContent = `$${financedTotalValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('monthly-payment-financed').textContent = `$${monthlyPayment.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+            });
+
+            printBtn.addEventListener('click', () => window.print());
+            downloadBtn.addEventListener('click', async () => {
                 actionsSection.style.display = 'none';
                 cfeeBackBtn.style.display = 'none';
-                const canvas = await html2canvas(container, { backgroundColor: '#ffffff', scale: 2, useCORS: true });
+                const canvas = await html2canvas(container, { backgroundColor: '#ffffff', scale: 2, useCORS: true, scrollY: 0, scrollX: 0 });
                 actionsSection.style.display = 'flex';
                 cfeeBackBtn.style.display = 'block';
                 const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                 const pageWidth = 210;
+                const pageHeight = 297;
                 const imgWidth = pageWidth - 20;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
                 const imgData = canvas.toDataURL('image/png');
-                pdf.addImage(imgData, 'PNG', 10, 0, imgWidth, imgHeight);
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                while (heightLeft > 0) {
+                    position = -(pageHeight - (heightLeft > pageHeight ? pageHeight : heightLeft));
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, heightLeft > pageHeight ? pageHeight : heightLeft);
+                    heightLeft -= pageHeight;
+                }
                 pdf.save('C-Fee_Statement.pdf');
-            } else {
-                console.error('jsPDF not loaded');
-            }
-        });
+            });
 
-        // P&L Calculator
-        let accCount = 1;
-        function toggleAccordion() {
-            this.classList.toggle('active');
-            const panel = this.nextElementSibling;
-            panel.style.maxHeight = panel.style.maxHeight ? null : panel.scrollHeight + 'px';
-        }
+            let isEstimated = false;
+            let originalAccountValues = [];
 
-        function formatNumberInputs(container) {
-            const numberInputs = container.querySelectorAll('input[type="text"].number-input');
-            numberInputs.forEach(input => {
-                input.addEventListener('blur', () => {
-                    const value = parseFloat(input.value.replace(/,/g, '')) || 0;
-                    input.value = value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('pnl-calculate-btn').addEventListener('click', () => {
+                let totalRevenue = 0, totalLabor = 0, totalSupplies = 0, totalOverhead = 0, totalCfees = 0, totalCodbCost = 0;
+                document.querySelectorAll('.pnl-form').forEach(form => {
+                    const revenue = parseFloat(form.querySelector('.revenue-input').value.replace(/,/g, '')) || 0;
+                    const labor = parseFloat(form.querySelector('.labor-input').value.replace(/,/g, '')) || 0;
+                    const supplies = parseFloat(form.querySelector('.supplies-input').value.replace(/,/g, '')) || 0;
+                    const overhead = parseFloat(form.querySelector('.overhead-input').value.replace(/,/g, '')) || 0;
+                    const cfees = parseFloat(form.querySelector('.cfees-input').value.replace(/,/g, '')) || 0;
+                    const codbPercentage = parseFloat(form.querySelector('.codb-input').value) || 0;
+                    const codbCost = (codbPercentage / 100) * revenue;
+
+                    totalRevenue += revenue;
+                    totalLabor += labor;
+                    totalSupplies += supplies;
+                    totalOverhead += overhead;
+                    totalCfees += cfees;
+                    totalCodbCost += codbCost;
                 });
+
+                const effectiveLabor = isEstimated ? totalRevenue * 0.25 : totalLabor;
+                const effectiveSupplies = isEstimated ? totalRevenue * 0.05 : totalSupplies;
+
+                const totalExpenses = effectiveLabor + effectiveSupplies + totalOverhead + totalCfees + totalCodbCost;
+                const netProfit = totalRevenue - totalExpenses;
+                const netWithoutCfees = netProfit + totalCfees;
+                const netAnnual = netWithoutCfees * 12;
+
+                document.getElementById('pnl-total-revenue').textContent = `$${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-labor-costs').textContent = `${isEstimated ? '(Estimated) ' : ''}$${effectiveLabor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-supplies-costs').textContent = `${isEstimated ? '(Estimated) ' : ''}$${effectiveSupplies.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-overhead-costs').textContent = `$${totalOverhead.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-cfees-costs').textContent = `$${totalCfees.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-codb-costs').textContent = `$${totalCodbCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-total-expenses').textContent = `$${totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-net-profit').textContent = `$${netProfit.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-net-without-cfees').textContent = `$${netWithoutCfees.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-net-annual').textContent = `$${netAnnual.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
             });
-        }
 
-        document.querySelectorAll('#accounts-container .accordion').forEach(acc => {
-            acc.addEventListener('click', toggleAccordion);
-            const panel = acc.nextElementSibling;
-            const nameInput = panel.querySelector('.account-name-input');
-            nameInput.addEventListener('input', function() {
-                const title = acc.querySelector('.accordion-title');
-                title.textContent = this.value || `Account ${accCount}`;
+            document.getElementById('pnl-estimate-btn').addEventListener('click', () => {
+                if (isEstimated) {
+                    isEstimated = false;
+                    document.getElementById('pnl-estimate-btn').textContent = 'Estimated Labor/Supplies';
+                    document.querySelectorAll('.pnl-form').forEach((form, index) => {
+                        const laborInput = form.querySelector('.labor-input');
+                        const suppliesInput = form.querySelector('.supplies-input');
+                        const laborLabel = form.querySelector('.labor-input + .estimate-label');
+                        const suppliesLabel = form.querySelector('.supplies-input + .estimate-label');
+                        laborInput.value = originalAccountValues[index].labor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        suppliesInput.value = originalAccountValues[index].supplies.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        laborLabel.textContent = '';
+                        suppliesLabel.textContent = '';
+                    });
+                    originalAccountValues = [];
+                } else {
+                    originalAccountValues = [];
+                    document.querySelectorAll('.pnl-form').forEach(form => {
+                        const revenue = parseFloat(form.querySelector('.revenue-input').value.replace(/,/g, '')) || 0;
+                        const labor = parseFloat(form.querySelector('.labor-input').value.replace(/,/g, '')) || 0;
+                        const supplies = parseFloat(form.querySelector('.supplies-input').value.replace(/,/g, '')) || 0;
+                        originalAccountValues.push({ labor, supplies });
+                        const estimatedLabor = revenue * 0.25;
+                        const estimatedSupplies = revenue * 0.05;
+                        const laborInput = form.querySelector('.labor-input');
+                        const suppliesInput = form.querySelector('.supplies-input');
+                        const laborLabel = form.querySelector('.labor-input + .estimate-label');
+                        const suppliesLabel = form.querySelector('.supplies-input + .estimate-label');
+                        laborInput.value = estimatedLabor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        suppliesInput.value = estimatedSupplies.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        laborLabel.textContent = '(Estimated)';
+                        suppliesLabel.textContent = '(Estimated)';
+                    });
+                    isEstimated = true;
+                    document.getElementById('pnl-estimate-btn').textContent = 'Revert Estimates';
+                }
+                document.getElementById('pnl-calculate-btn').click();
             });
-        });
 
-        document.getElementById('add-account-btn').addEventListener('click', () => {
-            accCount++;
-            const newAcc = document.createElement('button');
-            newAcc.className = 'accordion';
-            newAcc.innerHTML = `<span class="accordion-title">Account ${accCount}</span><button class="remove-account-btn">Remove</button>`;
-            const newPanel = document.createElement('div');
-            newPanel.className = 'panel';
-            newPanel.innerHTML = `
-                <input type="text" class="account-name-input" value="Account ${accCount}">
-                <form class="pnl-form">
-                    <div>
-                        <label>Total Revenue (Cleaning Services):</label>
-                        <input type="text" class="number-input revenue-input" value="0.00">
-                        <label>Labor Costs:</label>
-                        <input type="text" class="number-input labor-input" value="0.00">
-                        <label>Supplies:</label>
-                        <input type="text" class="number-input supplies-input" value="0.00">
-                    </div>
-                    <div>
-                        <label>Overhead Expenses:</label>
-                        <input type="text" class="number-input overhead-input" value="0.00">
-                        <label>Cfees:</label>
-                        <input type="text" class="number-input cfees-input" value="0.00">
-                        <label>Cost of Doing Business (%):</label>
-                        <input type="number" class="codb-input" value="0" step="0">
-                    </div>
-                </form>
-            `;
-            document.getElementById('accounts-container').appendChild(newAcc);
-            document.getElementById('accounts-container').appendChild(newPanel);
-
-            newAcc.addEventListener('click', toggleAccordion);
-            newPanel.querySelector('.account-name-input').addEventListener('input', function() {
-                newAcc.querySelector('.accordion-title').textContent = this.value || `Account ${accCount}`;
-            });
-            newAcc.querySelector('.remove-account-btn').addEventListener('click', (e) => {
-                e.stopPropagation();
-                newAcc.remove();
-                newPanel.remove();
-                accCount--;
-            });
-            formatNumberInputs(newPanel);
-        });
-
-        formatNumberInputs(document);
-
-        document.getElementById('pnl-calculate-btn').addEventListener('click', () => {
-            let totalRevenue = 0, totalLabor = 0, totalSupplies = 0, totalOverhead = 0, totalCfees = 0, totalCodbCost = 0;
-            document.querySelectorAll('.pnl-form').forEach(form => {
-                const revenue = parseFloat(form.querySelector('.revenue-input').value.replace(/,/g, '')) || 0;
-                const labor = parseFloat(form.querySelector('.labor-input').value.replace(/,/g, '')) || 0;
-                const supplies = parseFloat(form.querySelector('.supplies-input').value.replace(/,/g, '')) || 0;
-                const overhead = parseFloat(form.querySelector('.overhead-input').value.replace(/,/g, '')) || 0;
-                const cfees = parseFloat(form.querySelector('.cfees-input').value.replace(/,/g, '')) || 0;
-                const codbPercentage = parseFloat(form.querySelector('.codb-input').value) || 0;
-                const codbCost = (codbPercentage / 100) * revenue;
-
-                totalRevenue += revenue;
-                totalLabor += labor;
-                totalSupplies += supplies;
-                totalOverhead += overhead;
-                totalCfees += cfees;
-                totalCodbCost += codbCost;
-            });
-            const totalExpenses = totalLabor + totalSupplies + totalOverhead + totalCfees + totalCodbCost;
-            const netProfit = totalRevenue - totalExpenses;
-            const netWithoutCfees = netProfit + totalCfees;
-            const netAnnual = netWithoutCfees * 12;
-
-            document.getElementById('pnl-total-revenue').textContent = `$${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('pnl-labor-costs').textContent = `$${totalLabor.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('pnl-supplies-costs').textContent = `$${totalSupplies.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('pnl-overhead-costs').textContent = `$${totalOverhead.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('pnl-cfees-costs').textContent = `$${totalCfees.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('pnl-codb-costs').textContent = `$${totalCodbCost.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('pnl-total-expenses').textContent = `$${totalExpenses.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('pnl-net-profit').textContent = `$${netProfit.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('pnl-net-without-cfees').textContent = `$${netWithoutCfees.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-            document.getElementById('pnl-net-annual').textContent = `$${netAnnual.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
-        });
-
-        document.getElementById('pnl-print-btn').addEventListener('click', () => window.print());
-        document.getElementById('pnl-download-btn').addEventListener('click', async () => {
-            if (window.jspdf) {
-                const { jsPDF } = window.jspdf;
-                const canvas = await html2canvas(pnlContent, { backgroundColor: '#ffffff', scale: 2, useCORS: true });
+            document.getElementById('pnl-print-btn').addEventListener('click', () => window.print());
+            document.getElementById('pnl-download-btn').addEventListener('click', async () => {
+                const canvas = await html2canvas(pnlContent, { backgroundColor: '#ffffff', scale: 2, useCORS: true, scrollY: 0, scrollX: 0 });
                 const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                 const pageWidth = 210;
                 const imgWidth = pageWidth - 20;
@@ -812,81 +1305,58 @@
                 const imgData = canvas.toDataURL('image/png');
                 pdf.addImage(imgData, 'PNG', 10, 0, imgWidth, imgHeight);
                 pdf.save('P&L_Statement.pdf');
-            } else {
-                console.error('jsPDF not loaded');
-            }
-        });
+            });
 
-        // Man Hour Calculator
-        document.getElementById('manhour-calculate-btn').addEventListener('click', () => {
-            const numberOfPeople = parseFloat(document.getElementById('number-of-people').value) || 0;
-            const totalHours = parseFloat(document.getElementById('total-hours').value) || 0;
-            const totalManHours = numberOfPeople * totalHours;
-            document.getElementById('total-man-hours').textContent = totalManHours.toFixed(1);
-        });
+            document.getElementById('manhour-calculate-btn').addEventListener('click', () => {
+                const numberOfPeople = parseFloat(document.getElementById('number-of-people').value) || 0;
+                const totalHours = parseFloat(document.getElementById('total-hours').value) || 0;
+                const totalManHours = numberOfPeople * totalHours;
+                document.getElementById('total-man-hours').textContent = totalManHours.toFixed(1);
+            });
 
-        // Employee Ad Generator
-        const workDaysContainer = document.getElementById('adgen-work-days');
-        workDaysContainer.querySelectorAll('.day-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                btn.classList.toggle('selected');
+            // Employee Ad Generator
+            document.getElementById('generate-ad-btn').addEventListener('click', () => {
+                const location = document.getElementById('ad-location').value.trim() || 'TBD';
+                const scheduleType = document.getElementById('ad-schedule-type').value;
+                const scheduleDetails = document.getElementById('ad-schedule-details').value.trim() || 'TBD';
+                const pay = document.getElementById('ad-pay').value.trim() || 'Competitive';
+                const startDate = document.getElementById('ad-start-date').value.trim() || 'ASAP';
+                const perks = document.getElementById('ad-perks').value.trim().split('\n').filter(p => p.trim()).map(p => p.trim());
+                const experience = document.getElementById('ad-experience').value;
+                const transportation = document.getElementById('ad-transportation').value.trim() || 'Reliable transportation preferred';
+                const lifting = parseInt(document.getElementById('ad-lifting').value) || 25;
+                const email = document.getElementById('ad-email').value.trim() || 'hiring@company.com';
+
+                const adOutput = document.getElementById('ad-output');
+                adOutput.innerHTML = `
+                    <h3>Janitorial Worker Opportunity</h3>
+                    <p><strong>Location:</strong> ${location}</p>
+                    <p><strong>Schedule:</strong> ${scheduleType} – ${scheduleDetails}</p>
+                    <p><strong>Pay:</strong> ${pay}</p>
+                    <p><strong>Start Date:</strong> ${startDate}</p>
+                    <h3>Job Description:</h3>
+                    <p>We are seeking a reliable and detail-oriented Janitorial Worker to join our team. This role is responsible for maintaining a clean, safe, and orderly environment by performing routine cleaning tasks such as sweeping, mopping, emptying trash, sanitizing restrooms, and restocking supplies. A strong work ethic and commitment to cleanliness are essential.</p>
+                    <h3>What We Offer:</h3>
+                    <ul>
+                        <li>Stable hours</li>
+                        <li>Weekly pay</li>
+                        ${perks.length ? perks.map(p => `<li>${p}</li>`).join('') : ''}
+                        <li>Training provided</li>
+                        <li>Opportunities for growth</li>
+                        <li>Supportive team environment</li>
+                    </ul>
+                    <h3>Requirements:</h3>
+                    <ul>
+                        <li>Must be dependable and detail-oriented</li>
+                        <li>Ability to follow directions and work independently</li>
+                        <li>${experience}</li>
+                        <li>${transportation}</li>
+                        <li>Able to lift up to ${lifting} lbs and be on feet for extended periods</li>
+                    </ul>
+                    <p><strong>Email:</strong> ${email}</p>
+                `;
             });
         });
-
-        document.getElementById('adgen-generate-btn').addEventListener('click', () => {
-            const location = document.getElementById('adgen-location').value.trim() || '[Insert City/Area]';
-            const scheduleType = document.getElementById('adgen-schedule-type').value;
-            const timeOfDay = document.getElementById('adgen-time-of-day').value;
-            const selectedDays = Array.from(workDaysContainer.querySelectorAll('.day-btn.selected'))
-                .map(btn => btn.dataset.day)
-                .join(', ') || 'Flexible';
-            const pay = document.getElementById('adgen-pay').value.trim() || '[Insert Pay]';
-            const startDate = document.getElementById('adgen-start-date').value.trim() || 'ASAP';
-            const perks = document.getElementById('adgen-perks').value.trim();
-            const experience = document.getElementById('adgen-experience').value;
-            const transportation = document.getElementById('adgen-transportation').value;
-            const lifting = document.getElementById('adgen-lifting').value || '25';
-            const email = document.getElementById('adgen-email').value.trim() || '[Insert Email]';
-
-            const adText = `
-Join Our Team at Anago Cleaning Systems!
-
-Position: Commercial Cleaner
-Location: ${location}
-Schedule: ${scheduleType}, ${timeOfDay}, ${selectedDays}
-Pay: ${pay}
-Start Date: ${startDate}
-
-Job Description:
-We are seeking reliable and detail-oriented Commercial Cleaners to join our team at Anago Cleaning Systems. As a cleaner, you will be responsible for maintaining a high standard of cleanliness in our clients' facilities, ensuring a safe and welcoming environment.
-
-Requirements:
-- Experience: ${experience}
-- Transportation: ${transportation}
-- Physical Ability: Must be able to lift up to ${lifting} lbs
-- Must pass a background check
-
-${perks ? `Perks:\n- ${perks}\n` : ''}
-Why Work With Us?
-At Anago, we value our employees and offer a supportive work environment with opportunities for growth. Join a team dedicated to excellence in commercial cleaning!
-
-How to Apply:
-Please send your resume and contact information to ${email} to schedule an interview. We look forward to hearing from you!
-
-            `.trim();
-
-            const output = document.getElementById('job-ad-output');
-            output.value = adText;
-            document.getElementById('adgen-copy-btn').disabled = false;
-        });
-
-        document.getElementById('adgen-copy-btn').addEventListener('click', () => {
-            const output = document.getElementById('job-ad-output');
-            output.select();
-            document.execCommand('copy');
-            alert('Job ad copied to clipboard!');
-        });
-    });
     </script>
 </body>
 </html>
