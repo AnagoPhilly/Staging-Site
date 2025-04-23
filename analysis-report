@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Report</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'San Francisco', 'Segoe UI', Roboto, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 30px;
+            color: #212529;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 1240px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+        }
+        header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-bottom: 25px;
+            margin-bottom: 35px;
+            border-bottom: 1px solid #e9ecef;
+            gap: 20px;
+        }
+        .logo img {
+            max-width: 160px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+        .logo img:hover {
+            transform: scale(1.05);
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: #212529;
+            margin: 0;
+        }
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+            padding: 25px;
+            background-color: #f9f9fb;
+            border-radius: 16px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .metric {
+            text-align: center;
+        }
+        .metric h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #6c757d;
+            margin: 0 0 8px 0;
+        }
+        .metric p {
+            font-size: 22px;
+            font-weight: 700;
+            color: #212529;
+            margin: 0;
+        }
+        .charts {
+            display: grid;
+            grid-template-rows: auto auto;
+            gap: 40px;
+        }
+        .trend-container {
+            width: 100%;
+            position: relative;
+        }
+        .yearly-pie-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+        }
+        .chart-container {
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+            border: 1px solid #e9ecef;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .chart-container:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        .chart-container h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #212529;
+            margin: 0 0 20px 0;
+        }
+        canvas {
+            width: 100% !important;
+            height: auto !important;
+            border-radius: 12px;
+            background: #f8f9fa;
+            padding: 10px;
+        }
+        .toggle-buttons {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            display: flex;
+            gap: 12px;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .toggle-button {
+            padding: 10px 20px;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+        .toggle-button.mean {
+            background: linear-gradient(135deg, #40c057, #2ea44f);
+        }
+        .toggle-button.mean:hover {
+            background: linear-gradient(135deg, #37a849, #26873c);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .toggle-button.trend {
+            background: linear-gradient(135deg, #ffaa33, #ff8c00);
+        }
+        .toggle-button.trend:hover {
+            background: linear-gradient(135deg, #ff9500, #e07b00);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        .toggle-button:active {
+            transform: translateY(2px);
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+        }
+        .trend-percentage {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 8px;
+            display: none;
+            text-align: right;
+            font-style: italic;
+        }
+        .button-group {
+            display: flex;
+            gap: 20px;
+            justify-content: flex-end;
+            margin-top: 40px;
+        }
+        button {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #007bff, #0056d2);
+            color: #ffffff;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        button:hover {
+            background: linear-gradient(135deg, #0069d9, #004085);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+        }
+        button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+        .year-filter {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+        .year-filter label {
+            font-size: 15px;
+            font-weight: 600;
+            color: #212529;
+        }
+        .year-filter select {
+            padding: 10px 15px;
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #212529;
+            background-color: #ffffff;
+            cursor: pointer;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            appearance: none;
+            background-image: url('data:image/svg+xml;utf8,<svg fill="%236c757d" height="20" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+            background-repeat: no-repeat;
+            background-position: right 10px center;
+            padding-right: 35px;
+        }
+        .year-filter select:hover {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.3);
+        }
+        .year-filter select:focus {
+            outline: none;
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+        }
+        @media screen and (max-width: 768px) {
+            .charts {
+                grid-template-rows: auto auto auto;
+            }
+            .yearly-pie-container {
+                grid-template-columns: 1fr;
+            }
+            .container { padding: 25px; }
+            .toggle-buttons { top: 15px; right: 15px; gap: 8px; }
+            header { flex-direction: column; text-align: center; }
+        }
+        @media screen and (min-width: 769px) {
+            .container { padding: 50px; }
+            h1 { font-size: 36px; }
+            .logo img { max-width: 180px; }
+            .chart-container { padding: 30px; }
+        }
+        @media print {
+            @page {
+                size: landscape;
+                margin: 5mm;
+            }
+            body {
+                background-color: #ffffff;
+                padding: 0;
+                margin: 0;
+            }
+            .container {
+                padding: 0;
+                margin: 0;
+                box-shadow: none;
+                border-radius: 0;
+                max-width: none;
+                width: 100%;
+            }
+            .yearly-pie-container {
+                display: none;
+            }
+            .charts {
+                grid-template-rows: auto;
+                gap: 0;
+            }
+            .trend-container {
+                width: 100%;
+                page-break-inside: avoid;
+            }
+            .chart-container {
+                padding: 2mm 1mm;
+                box-shadow: none;
+                border-radius: 0;
+                border: none;
+            }
+            .chart-container h2 {
+                font-size: 16px;
+                margin: 0 0 2mm 0;
+            }
+            .metrics {
+                grid-template-columns: repeat(4, 1fr);
+                padding: 1mm;
+                margin-bottom: 1mm;
+                gap: 2mm;
+            }
+            .metric h3 {
+                font-size: 10px;
+                margin: 0;
+            }
+            .metric p {
+                font-size: 12px;
+                margin: 0;
+            }
+            header {
+                padding: 1mm;
+                margin-bottom: 1mm;
+                border-bottom: none;
+            }
+            .logo img {
+                max-width: 80px;
+            }
+            h1 {
+                font-size: 18px;
+            }
+            .button-group {
+                display: none;
+            }
+            .toggle-buttons {
+                display: none;
+            }
+            .year-filter {
+                display: none;
+            }
+            canvas#trendChart {
+                width: 100% !important;
+                height: 400px !important;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <img src="https://cdn-ilafcfb.nitrocdn.com/KEhcwwSaSxLtwUeasrlkkKIKKhAgEOob/assets/images/optimized/rev-16fc74f/anagocleaning.com/wp-content/uploads/2023/09/anagologo2-300x181.png" alt="Anago Cleaning Systems Logo">
+            </div>
+            <h1>Analysis Report</h1>
+        </header>
+        <div class="metrics">
+            <div class="metric">
+                <h3>Total Revenue</h3>
+                <p id="total-revenue">$0.00</p>
+            </div>
+            <div class="metric">
+                <h3>Total CFees</h3>
+                <p id="total-cfees">$0.00</p>
+            </div>
+            <div class="metric">
+                <h3>Avg. Monthly Profit</h3>
+                <p id="avg-profit">$0.00</p>
+            </div>
+            <div class="metric">
+                <h3>Highest Profit Month</h3>
+                <p id="highest-profit">-</p>
+            </div>
+        </div>
+        <div class="charts">
+            <div class="trend-container">
+                <div class="year-filter">
+                    <label for="startYear">Start Year:</label>
+                    <select id="startYear"></select>
+                    <label for="endYear">End Year:</label>
+                    <select id="endYear"></select>
+                </div>
+                <div class="chart-container">
+                    <h2>Trends Over Time</h2>
+                    <canvas id="trendChart"></canvas>
+                    <div class="toggle-buttons">
+                        <button class="toggle-button mean" id="toggleMean">Show Mean</button>
+                        <button class="toggle-button trend" id="toggleTrend">Show Trend</button>
+                        <div class="trend-percentage" id="trendPercentage"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="yearly-pie-container">
+                <div class="chart-container">
+                    <h2>Yearly Totals</h2>
+                    <canvas id="yearlyChangeChart"></canvas>
+                </div>
+                <div class="chart-container">
+                    <h2>Total Distribution</h2>
+                    <canvas id="pieChart"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="button-group">
+            <button onclick="window.print()">Print Report</button>
+            <button id="future-potential-btn">Future Potential</button>
+        </div>
+    </div>
+
+    <script>
+        let reportData;
+        let trendChartInstance;
+        let yearlyChangeChartInstance;
+        let pieChartInstance;
+        let showMean = false;
+        let showTrend = false;
+        let filteredData = [];
+
+        const monthMap = {
+            'Jan': 0, 'Feb': 1, 'Mar': 2, 'Apr': 3, 'May': 4, 'Jun': 5,
+            'Jul': 6, 'Aug': 7, 'Sep': 8, 'Oct': 9, 'Nov': 10, 'Dec': 11
+        };
+
+        const colors = {
+            profit: '#34c759',
+            labor: '#ff9500',
+            cfees: '#007bff',
+            meanProfit: '#2a9444',
+            meanLabor: '#cc7700',
+            meanCFees: '#0056d2',
+            trendProfit: '#1e7e34',
+            trendLabor: '#995900',
+            trendCFees: '#004085'
+        };
+
+        function createSequences(data, seqLength) {
+            const sequences = [];
+            const targets = [];
+            for (let i = 0; i < data.length - seqLength; i++) {
+                sequences.push(data.slice(i, i + seqLength));
+                targets.push(data[i + seqLength]);
+            }
+            return { sequences, targets };
+        }
+
+        function calculateTrendLine(data) {
+            const n = data.length;
+            let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+            for (let x = 0; x < n; x++) {
+                sumX += x;
+                sumY += data[x];
+                sumXY += x * data[x];
+                sumXX += x * x;
+            }
+            const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+            const trendData = data.map((_, x) => slope * x + intercept);
+            const startValue = intercept;
+            const endValue = slope * (n - 1) + intercept;
+            const percentChange = startValue !== 0 ? ((endValue - startValue) / startValue * 100).toFixed(2) : 0;
+            return { trendData, percentChange };
+        }
+
+        function updateTrendChart(dataToShow) {
+            if (!dataToShow || !Array.isArray(dataToShow) || dataToShow.length === 0) {
+                console.error('Invalid data in updateTrendChart');
+                return;
+            }
+
+            const labels = dataToShow.map(item => item.label);
+            const profits = dataToShow.map(item => item.profit);
+            const labors = dataToShow.map(item => item.labor);
+            const cfees = dataToShow.map(item => item.cfees);
+
+            const meanProfit = profits.reduce((sum, val) => sum + val, 0) / profits.length;
+            const meanLabor = labors.reduce((sum, val) => sum + val, 0) / labors.length;
+            const meanCFees = cfees.reduce((sum, val) => sum + val, 0) / cfees.length;
+            const meanProfitData = Array(labels.length).fill(meanProfit);
+            const meanLaborData = Array(labels.length).fill(meanLabor);
+            const meanCFeesData = Array(labels.length).fill(meanCFees);
+
+            const profitTrend = calculateTrendLine(profits);
+            const laborTrend = calculateTrendLine(labors);
+            const cfeesTrend = calculateTrendLine(cfees);
+            const trendProfitData = profitTrend.trendData;
+            const trendLaborData = laborTrend.trendData;
+            const trendCFeesData = cfeesTrend.trendData;
+
+            const hasLaborData = labors.some(val => val !== 0);
+            const hasCFeesData = cfees.some(val => val !== 0);
+
+            let datasets = [
+                { label: 'Profit', data: profits, borderColor: colors.profit, backgroundColor: 'rgba(52, 199, 89, 0.1)', fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2 }
+            ];
+            if (hasLaborData) {
+                datasets.push(
+                    { label: 'Labor', data: labors, borderColor: colors.labor, backgroundColor: 'rgba(255, 149, 0, 0.1)', fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2 }
+                );
+            }
+            if (hasCFeesData) {
+                datasets.push(
+                    { label: 'CFees', data: cfees, borderColor: colors.cfees, backgroundColor: 'rgba(0, 123, 255, 0.1)', fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2 }
+                );
+            }
+
+            if (showMean) {
+                datasets.push(
+                    { label: 'Mean Profit', data: meanProfitData, borderColor: colors.meanProfit, borderWidth: 2, borderDash: [5, 5], fill: false, pointRadius: 0, tension: 0 }
+                );
+                if (hasLaborData) {
+                    datasets.push(
+                        { label: 'Mean Labor', data: meanLaborData, borderColor: colors.meanLabor, borderWidth: 2, borderDash: [5, 5], fill: false, pointRadius: 0, tension: 0 }
+                    );
+                }
+                if (hasCFeesData) {
+                    datasets.push(
+                        { label: 'Mean CFees', data: meanCFeesData, borderColor: colors.meanCFees, borderWidth: 2, borderDash: [5, 5], fill: false, pointRadius: 0, tension: 0 }
+                    );
+                }
+            }
+
+            if (showTrend) {
+                datasets.push(
+                    { label: 'Trend Profit', data: trendProfitData, borderColor: colors.trendProfit, borderWidth: 2, borderDash: [10, 5], fill: false, pointRadius: 0, tension: 0 }
+                );
+                if (hasLaborData) {
+                    datasets.push(
+                        { label: 'Trend Labor', data: trendLaborData, borderColor: colors.trendLabor, borderWidth: 2, borderDash: [10, 5], fill: false, pointRadius: 0, tension: 0 }
+                    );
+                }
+                if (hasCFeesData) {
+                    datasets.push(
+                        { label: 'Trend CFees', data: trendCFeesData, borderColor: colors.trendCFees, borderWidth: 2, borderDash: [10, 5], fill: false, pointRadius: 0, tension: 0 }
+                    );
+                }
+                const trendPercentage = document.getElementById('trendPercentage');
+                trendPercentage.style.display = 'block';
+                trendPercentage.textContent = `Profit Trend: ${profitTrend.percentChange > 0 ? '+' : ''}${profitTrend.percentChange}%${hasLaborData ? ` | Labor: ${laborTrend.percentChange > 0 ? '+' : ''}${laborTrend.percentChange}%` : ''}${hasCFeesData ? ` | CFees: ${cfeesTrend.percentChange > 0 ? '+' : ''}${cfeesTrend.percentChange}%` : ''}`;
+            } else {
+                document.getElementById('trendPercentage').style.display = 'none';
+            }
+
+            trendChartInstance.data.labels = labels;
+            trendChartInstance.data.datasets = datasets;
+            trendChartInstance.update();
+        }
+
+        function updateYearlyChart(dataToShow) {
+            const yearlyData = {};
+            dataToShow.forEach(item => {
+                const year = item.label.split(' ')[1];
+                if (!yearlyData[year]) {
+                    yearlyData[year] = { profit: 0, labor: 0, cfees: 0 };
+                }
+                yearlyData[year].profit += item.profit;
+                yearlyData[year].labor += item.labor;
+                yearlyData[year].cfees += item.cfees;
+            });
+
+            const yearlyYears = Object.keys(yearlyData).sort();
+            const yearlyProfits = yearlyYears.map(year => yearlyData[year].profit);
+            const yearlyLabors = yearlyYears.map(year => yearlyData[year].labor);
+            const yearlyCFees = yearlyYears.map(year => yearlyData[year].cfees);
+
+            yearlyChangeChartInstance.data.labels = yearlyYears;
+            yearlyChangeChartInstance.data.datasets = [
+                { label: 'Profit', data: yearlyProfits, backgroundColor: colors.profit, borderColor: colors.profit, borderWidth: 1 },
+                { label: 'Labor', data: yearlyLabors, backgroundColor: colors.labor, borderColor: colors.labor, borderWidth: 1 },
+                { label: 'CFees', data: yearlyCFees, backgroundColor: colors.cfees, borderColor: colors.cfees, borderWidth: 1 }
+            ];
+            yearlyChangeChartInstance.update();
+        }
+
+        function updatePieChart(dataToShow) {
+            const totalProfit = dataToShow.reduce((sum, item) => sum + item.profit, 0);
+            const totalLabor = dataToShow.reduce((sum, item) => sum + item.labor, 0);
+            const totalCFees = dataToShow.reduce((sum, item) => sum + item.cfees, 0);
+
+            pieChartInstance.data.datasets[0].data = [totalProfit, totalLabor, totalCFees];
+            pieChartInstance.update();
+        }
+
+        function updateMetrics(dataToShow) {
+            const profits = dataToShow.map(item => item.profit);
+            const labors = dataToShow.map(item => item.labor);
+            const cfees = dataToShow.map(item => item.cfees);
+            const netProfits = profits.map((p, i) => p - (labors[i] + cfees[i]));
+
+            const totalProfit = profits.reduce((sum, val) => sum + val, 0);
+            const totalCFees = cfees.reduce((sum, val) => sum + val, 0);
+            const totalNetProfit = netProfits.reduce((sum, val) => sum + val, 0);
+            const avgProfit = totalNetProfit / dataToShow.length;
+            const highestProfitIdx = netProfits.indexOf(Math.max(...netProfits));
+
+            document.getElementById('total-revenue').textContent = `$${totalProfit.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            document.getElementById('total-cfees').textContent = `$${totalCFees.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            document.getElementById('avg-profit').textContent = `$${avgProfit.toLocaleString('en-US', { minimumFractionDigits: 2 })}`;
+            document.getElementById('highest-profit').textContent = dataToShow[highestProfitIdx]?.label || '-';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            try {
+                const urlParams = new URLSearchParams(window.location.search);
+                const encodedData = urlParams.get('data');
+
+                if (!encodedData) {
+                    reportData = [
+                        { label: "Jan 2023", profit: 0, labor: 0, cfees: 0 },
+                        { label: "Feb 2023", profit: 0, labor: 0, cfees: 0 },
+                        { label: "Nov 2023", profit: 5000, labor: 2000, cfees: 1000 },
+                        { label: "Dec 2023", profit: 6000, labor: 2500, cfees: 1500 },
+                        { label: "Jan 2024", profit: 7000, labor: 3000, cfees: 2000 },
+                        { label: "Feb 2024", profit: 8000, labor: 3500, cfees: 2500 },
+                        { label: "Mar 2024", profit: 0, labor: 0, cfees: 0 }
+                    ];
+                } else {
+                    reportData = JSON.parse(decodeURIComponent(encodedData)).map(item => ({
+                        label: item.label,
+                        profit: item.profit,
+                        labor: item.labor,
+                        cfees: item.expenses
+                    }));
+                }
+
+                filteredData = [];
+                for (let i = 0; i < reportData.length; i++) {
+                    const isZero = reportData[i].profit === 0 && reportData[i].labor === 0 && reportData[i].cfees === 0;
+                    const isEdge = i === 0 || i === reportData.length - 1;
+                    if (!isZero || isEdge) {
+                        filteredData.push({
+                            label: reportData[i].label,
+                            profit: reportData[i].profit,
+                            labor: reportData[i].labor,
+                            cfees: reportData[i].cfees
+                        });
+                    }
+                }
+
+                const years = [...new Set(filteredData.map(item => item.label.split(' ')[1]))].sort();
+                const startYearSelect = document.getElementById('startYear');
+                const endYearSelect = document.getElementById('endYear');
+
+                years.forEach(year => {
+                    const startOption = document.createElement('option');
+                    startOption.value = year;
+                    startOption.textContent = year;
+                    startYearSelect.appendChild(startOption);
+
+                    const endOption = document.createElement('option');
+                    endOption.value = year;
+                    endOption.textContent = year;
+                    endYearSelect.appendChild(endOption);
+                });
+
+                startYearSelect.value = years[0];
+                endYearSelect.value = years[years.length - 1];
+
+                function filterDataByYearRange() {
+                    const startYear = parseInt(startYearSelect.value);
+                    const endYear = parseInt(endYearSelect.value);
+                    if (startYear > endYear) {
+                        alert('Start year must be less than or equal to end year.');
+                        return;
+                    }
+                    const dataToShow = filteredData.filter(item => {
+                        const year = parseInt(item.label.split(' ')[1]);
+                        return year >= startYear && year <= endYear;
+                    });
+
+                    updateTrendChart(dataToShow);
+                    updateYearlyChart(dataToShow);
+                    updatePieChart(dataToShow);
+                    updateMetrics(dataToShow);
+                }
+
+                startYearSelect.addEventListener('change', filterDataByYearRange);
+                endYearSelect.addEventListener('change', filterDataByYearRange);
+
+                const trendCtx = document.getElementById('trendChart').getContext('2d');
+                if (!trendCtx) throw new Error('Trend chart canvas not found');
+                trendChartInstance = new Chart(trendCtx, {
+                    type: 'line',
+                    data: {
+                        labels: filteredData.map(item => item.label),
+                        datasets: [
+                            { label: 'Profit', data: filteredData.map(item => item.profit), borderColor: colors.profit, backgroundColor: 'rgba(52, 199, 89, 0.1)', fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2 },
+                            { label: 'Labor', data: filteredData.map(item => item.labor), borderColor: colors.labor, backgroundColor: 'rgba(255, 149, 0, 0.1)', fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2 },
+                            { label: 'CFees', data: filteredData.map(item => item.cfees), borderColor: colors.cfees, backgroundColor: 'rgba(0, 123, 255, 0.1)', fill: true, tension: 0.4, pointRadius: 4, pointHoverRadius: 6, borderWidth: 2 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(0, 0, 0, 0.05)' }, ticks: { font: { size: 12, weight: '500' }, color: '#6c757d' }, title: { display: true, text: 'Amount ($)', font: { size: 14, weight: '600' }, color: '#212529' } },
+                            x: { grid: { display: false }, ticks: { font: { size: 12, weight: '500' }, color: '#6c757d', maxRotation: 45, minRotation: 45 }, title: { display: true, text: 'Month/Year', font: { size: 14, weight: '600' }, color: '#212529' } }
+                        },
+                        plugins: {
+                            legend: { position: 'top', labels: { font: { size: 14, weight: '500' }, color: '#212529', padding: 15, usePointStyle: true, pointStyle: 'circle' } },
+                            title: { display: true, text: 'Revenue Trends Over Time', font: { size: 18, weight: '600' }, color: '#212529', padding: { top: 10, bottom: 20 } },
+                            tooltip: {
+                                backgroundColor: 'rgba(33, 37, 41, 0.9)',
+                                titleFont: { size: 14, weight: '600' },
+                                bodyFont: { size: 12, weight: '400' },
+                                padding: 10,
+                                cornerRadius: 8,
+                                displayColors: true,
+                                boxPadding: 5
+                            }
+                        },
+                        animation: { duration: 1000, easing: 'easeOutQuart' }
+                    }
+                });
+
+                const yearlyChangeCtx = document.getElementById('yearlyChangeChart').getContext('2d');
+                if (!yearlyChangeCtx) throw new Error('Yearly chart canvas not found');
+                yearlyChangeChartInstance = new Chart(yearlyChangeCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: [],
+                        datasets: [
+                            { label: 'Profit', data: [], backgroundColor: colors.profit, borderColor: colors.profit, borderWidth: 1 },
+                            { label: 'Labor', data: [], backgroundColor: colors.labor, borderColor: colors.labor, borderWidth: 1 },
+                            { label: 'CFees', data: [], backgroundColor: colors.cfees, borderColor: colors.cfees, borderWidth: 1 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: 'rgba(0, 0, 0, 0.05)' }, ticks: { font: { size: 12, weight: '500' }, color: '#6c757d' }, title: { display: true, text: 'Amount ($)', font: { size: 14, weight: '600' }, color: '#212529' } },
+                            x: { grid: { display: false }, ticks: { font: { size: 12, weight: '500' }, color: '#6c757d' }, title: { display: true, text: 'Year', font: { size: 14, weight: '600' }, color: '#212529' } }
+                        },
+                        plugins: {
+                            legend: { position: 'top', labels: { font: { size: 14, weight: '500' }, color: '#212529', padding: 15, usePointStyle: true, pointStyle: 'rect' } },
+                            title: { display: true, text: 'Yearly Totals', font: { size: 18, weight: '600' }, color: '#212529', padding: { top: 10, bottom: 20 } },
+                            tooltip: { backgroundColor: 'rgba(33, 37, 41, 0.9)', titleFont: { size: 14, weight: '600' }, bodyFont: { size: 12, weight: '400' }, padding: 10, cornerRadius: 8, displayColors: true, boxPadding: 5 }
+                        },
+                        animation: { duration: 1000, easing: 'easeOutQuart' }
+                    }
+                });
+
+                const pieCtx = document.getElementById('pieChart').getContext('2d');
+                if (!pieCtx) throw new Error('Pie chart canvas not found');
+                pieChartInstance = new Chart(pieCtx, {
+                    type: 'pie',
+                    data: {
+                        labels: ['Profit', 'Labor', 'CFees'],
+                        datasets: [{ data: [0, 0, 0], backgroundColor: [colors.profit, colors.labor, colors.cfees], borderColor: '#ffffff', borderWidth: 2, hoverOffset: 8 }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: { position: 'top', labels: { font: { size: 14, weight: '500' }, color: '#212529', padding: 15, usePointStyle: true, pointStyle: 'circle' } },
+                            title: { display: true, text: 'Total Distribution', font: { size: 18, weight: '600' }, color: '#212529', padding: { top: 10, bottom: 20 } },
+                            tooltip: { backgroundColor: 'rgba(33, 37, 41, 0.9)', titleFont: { size: 14, weight: '600' }, bodyFont: { size: 12, weight: '400' }, padding: 10, cornerRadius: 8, displayColors: true, boxPadding: 5 }
+                        },
+                        animation: { duration: 1000, easing: 'easeOutQuart' }
+                    }
+                });
+
+                filterDataByYearRange(); // Initial render with full range
+
+                const toggleMeanButton = document.getElementById('toggleMean');
+                toggleMeanButton.addEventListener('click', () => {
+                    showMean = !showMean;
+                    toggleMeanButton.textContent = showMean ? 'Hide Mean' : 'Show Mean';
+                    filterDataByYearRange();
+                });
+
+                const toggleTrendButton = document.getElementById('toggleTrend');
+                toggleTrendButton.addEventListener('click', () => {
+                    showTrend = !showTrend;
+                    toggleTrendButton.textContent = showTrend ? 'Hide Trend' : 'Show Trend';
+                    filterDataByYearRange();
+                });
+
+                const futureBtn = document.getElementById('future-potential-btn');
+                futureBtn.addEventListener('click', async () => {
+                    futureBtn.disabled = true;
+                    futureBtn.textContent = 'Training...';
+
+                    try {
+                        const profits = reportData.map(item => item.profit);
+                        if (profits.length < 12) {
+                            alert("Not enough data for prediction. Please provide at least 12 months of profit data.");
+                            futureBtn.textContent = 'Future Potential';
+                            futureBtn.disabled = false;
+                            return;
+                        }
+
+                        const sequenceLength = 6;
+                        const minVal = Math.min(...profits);
+                        const maxVal = Math.max(...profits);
+                        const normalizedProfits = maxVal === minVal ? profits.map(() => 0) : profits.map(val => (val - minVal) / (maxVal - minVal));
+
+                        const { sequences, targets } = createSequences(normalizedProfits, sequenceLength);
+
+                        const model = tf.sequential();
+                        model.add(tf.layers.lstm({ units: 20, inputShape: [sequenceLength, 1] }));
+                        model.add(tf.layers.dense({ units: 1 }));
+                        model.compile({ optimizer: 'adam', loss: 'meanSquaredError' });
+
+                        const xs = tf.tensor3d(sequences, [sequences.length, sequenceLength, 1]);
+                        const ys = tf.tensor2d(targets, [targets.length, 1]);
+
+                        await model.fit(xs, ys, { epochs: 50, batchSize: 1 });
+
+                        const forecastLength = 12;
+                        let lastSequence = normalizedProfits.slice(-sequenceLength);
+                        const predictions = [];
+
+                        for (let i = 0; i < forecastLength; i++) {
+                            const inputTensor = tf.tensor3d([lastSequence], [1, sequenceLength, 1]);
+                            const pred = model.predict(inputTensor);
+                            const predValue = pred.dataSync()[0];
+                            predictions.push(predValue);
+                            lastSequence = [...lastSequence.slice(1), predValue];
+                            inputTensor.dispose();
+                            pred.dispose();
+                        }
+
+                        const denormalizedPredictions = predictions.map(val => val * (maxVal - minVal) + minVal);
+
+                        const lastLabel = reportData[reportData.length - 1].label;
+                        const [lastMonth, lastYear] = lastLabel.split(' ');
+                        let currentMonthIndex = monthMap[lastMonth];
+                        let currentYear = parseInt(lastYear);
+                        const futureLabels = [];
+
+                        for (let i = 0; i < forecastLength; i++) {
+                            currentMonthIndex = (currentMonthIndex + 1) % 12;
+                            if (currentMonthIndex === 0) {
+                                currentYear += 1;
+                            }
+                            const monthName = Object.keys(monthMap).find(key => monthMap[key] === currentMonthIndex);
+                            futureLabels.push(`${monthName} ${currentYear}`);
+                        }
+
+                        const currentLabels = trendChartInstance.data.labels;
+                        const newLabels = [...currentLabels, ...futureLabels];
+
+                        const historicalProfitDataset = trendChartInstance.data.datasets.find(ds => ds.label === 'Profit');
+                        const historicalProfitData = historicalProfitDataset.data;
+                        const extendedProfitData = [...historicalProfitData, ...Array(forecastLength).fill(null)];
+
+                        const lastProfit = profits[profits.length - 1];
+                        const predictedProfitData = [...Array(currentLabels.length - 1).fill(null), lastProfit, ...denormalizedPredictions];
+
+                        trendChartInstance.data.labels = newLabels;
+                        historicalProfitDataset.data = extendedProfitData;
+
+                        trendChartInstance.data.datasets = trendChartInstance.data.datasets.filter(ds => ds.label !== 'Predicted Profit');
+
+                        trendChartInstance.data.datasets.push({
+                            label: 'Predicted Profit',
+                            data: predictedProfitData,
+                            borderColor: '#ff3b30',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 4,
+                            pointHoverRadius: 6
+                        });
+
+                        trendChartInstance.update();
+
+                        futureBtn.textContent = 'Future Potential';
+                        futureBtn.disabled = false;
+                    } catch (error) {
+                        console.error('Error during training or prediction:', error);
+                        alert('An error occurred during prediction. Please try again.');
+                        futureBtn.textContent = 'Future Potential';
+                        futureBtn.disabled = false;
+                    }
+                });
+
+            } catch (error) {
+                console.error('Error initializing charts:', error);
+            }
+        });
+    </script>
+</body>
+</html>
