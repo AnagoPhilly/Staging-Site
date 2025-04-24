@@ -135,7 +135,7 @@
             background-color: #f1f9ff;
             font-weight: 600;
         }
-        input[type="text"], input[type="number"], input[type="email"], select, textarea {
+        input[type="text"], input[type="number"], input[type="email"], select {
             width: 100%;
             padding: 8px;
             margin: 3px 0;
@@ -143,11 +143,6 @@
             border: 1px solid #bdc3c7;
             border-radius: 5px;
             font-size: 14px;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-            width: 100%;
         }
         .cfee-actions, .pnl-actions, .manhour-actions, .forecast-actions, .employee-ad-actions {
             display: flex;
@@ -334,6 +329,35 @@
             left: 0;
             color: #3498db;
         }
+        .day-buttons {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            gap: 10px;
+            margin: 5px 0 20px 0;
+            width: 100%;
+        }
+        .day-btn {
+            padding: 15px 15px;
+            background-color: #e0e0e0;
+            color: #2c3e50;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background-color 0.s ease;
+            flex: 1;
+            text-align: center;
+            min-width: 0;
+        }
+        .day-btn.selected {
+            background-color: #3498db;
+            color: white;
+        }
+        .day-btn:hover {
+            background-color: #2980b9;
+            color: white;
+        }
 
         @media screen and (min-width: 768px) {
             .container { padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -356,21 +380,26 @@
                 padding: 15px;
                 font-size: 20px;
             }
-            input[type="text"], input[type="number"], input[type="email"], select, textarea {
+            input[type="text"], input[type="number"], input[type="email"], select {
                 padding: 15px;
                 margin: 8px 0;
                 border-radius: 8px;
                 font-size: 20px;
             }
             textarea {
-                min-height: 100px;
+                padding: 15px;
+                margin: 8px 0;
+                border-radius: 8px;
+                font-size: 20px;
+                height: 20px;
+                resize: none;
+                width: 93%;
             }
             .accordion {
                 padding: 15px;
                 font-size: 20px;
                 border-radius: 8px;
             }
-            .cfee-actions, .pnl-actions, .manhour-actions, .forecast-actions, .employee-ad-actions { gap: 15px; margin-bottom: 30px; }
             .cfee-actions button, .pnl-actions button, .manhour-actions button, .forecast-actions button, .employee-ad-actions button {
                 padding: 12px 25px;
                 font-size: 16px;
@@ -405,6 +434,17 @@
             .generated-ad h3 {
                 font-size: 22px;
             }
+            .day-btn {
+                padding: 18px 12px;
+                font-size: 14px;
+                flex: 1;
+                text-align: center;
+                min-width: 0;
+            }
+            .day-btn.selected {
+                background-color: #3498db;
+                color: white;
+            }
         }
         @media print {
             .main-actions, .cfee-actions, .pnl-actions, .manhour-actions, .forecast-actions, .employee-ad-actions, .back-btn, .add-account-btn, .remove-account-btn, .year-selector, .year-buttons { display: none !important; }
@@ -424,14 +464,20 @@
             .cfee-section, .pnl-section, .manhour-section, .revenue-section, .forecast-section, .employee-ad-section { margin-bottom: 15px; }
             .cfee-table, .pnl-table, .manhour-table, .forecast-table { margin-top: 8px; }
             .cfee-table th, .cfee-table td, .pnl-table th, .pnl-table td, .manhour-table th, .manhour-table td, .forecast-table th, .forecast-table td { padding: 8px; font-size: 12px; }
-            input[type="text"], input[type="number"], input[type="email"], select, textarea {
+            input[type="text"], input[type="number"], input[type="email"], select {
                 padding: 6px;
                 margin: 2px 0;
                 border-radius: 4px;
                 font-size: 12px;
             }
             textarea {
-                min-height: 60px;
+                padding: 15px;
+                margin: 8px 0;
+                border-radius: 8px;
+                font-size: 20px;
+                height: 50px;
+                resize: none;
+                
             }
             .accordion {
                 padding: 6px;
@@ -652,15 +698,25 @@
                                 <option value="Full-Time">Full-Time</option>
                                 <option value="Part-Time">Part-Time</option>
                             </select>
-                            <label for="ad-schedule-details">Schedule Details (Days/Hours):</label>
-                            <input type="text" id="ad-schedule-details" name="ad-schedule-details" placeholder="e.g., Mon-Fri, 6PM-10PM">
+                            <label>Schedule Details (Days):</label>
+                            <div class="day-buttons">
+                                <button type="button" class="day-btn" data-day="Mon">Mon</button>
+                                <button type="button" class="day-btn" data-day="Tue">Tue</button>
+                                <button type="button" class="day-btn" data-day="Wed">Wed</button>
+                                <button type="button" class="day-btn" data-day="Thu">Thu</button>
+                                <button type="button" class="day-btn" data-day="Fri">Fri</button>
+                                <button type="button" class="day-btn" data-day="Sat">Sat</button>
+                                <button type="button" class="day-btn" data-day="Sun">Sun</button>
+                            </div>
+                            <label for="ad-schedule-hours">Schedule Details (Hours):</label>
+                            <input type="text" id="ad-schedule-hours" name="ad-schedule-hours" placeholder="e.g., 6PM-10PM">
                             <label for="ad-pay">Pay (Hourly Wage or Range):</label>
                             <input type="text" id="ad-pay" name="ad-pay" placeholder="e.g., $15-$18/hr">
                             <label for="ad-start-date">Start Date:</label>
                             <input type="text" id="ad-start-date" name="ad-start-date" placeholder="e.g., ASAP or 11/01/2025">
                         </div>
                         <div>
-                            <label for="ad-perks">Other Perks (Optional, one per line):</label>
+                            <label for="ad-perks">What We Offer (Hit enter for new line to add more):</label>
                             <textarea id="ad-perks" name="ad-perks" placeholder="e.g., Uniforms provided"></textarea>
                             <label for="ad-experience">Experience Requirements:</label>
                             <select id="ad-experience" name="ad-experience">
@@ -671,8 +727,8 @@
                                 <option value="4+ years experience required">4+ years experience required</option>
                                 <option value="5+ years experience required">5+ years experience required</option>
                             </select>
-                            <label for="ad-transportation">Transportation Requirements:</label>
-                            <input type="text" id="ad-transportation" name="ad-transportation" placeholder="e.g., Valid driver’s license required">
+                            <label for="ad-requirements">Requirements (Hit enter for new line to add more):</label>
+                            <textarea id="ad-requirements" name="ad-requirements" placeholder="e.g., Valid driver’s license"></textarea>
                             <label for="ad-lifting">Lifting Capacity (lbs):</label>
                             <input type="number" id="ad-lifting" name="ad-lifting" value="25" min="0">
                             <label for="ad-email">Contact Email:</label>
@@ -1152,7 +1208,7 @@
                     generateMonthDropdown(activeYear);
                 } else {
                     const years = Object.keys(revenueData).map(key => parseInt(key.split(' ')[1])).sort();
-                    const defaultYear = years.length ? years[0] : parseInt(startYearInput.value) || 2020;
+                    const defaultYear = years.length ? years[0] : parseInt(startYearInput.value) || 0;
                     generateYearButtons(defaultYear, parseInt(endYearInput.value) || defaultYear);
                     generateMonthDropdown(defaultYear);
                 }
@@ -1174,7 +1230,7 @@
                 document.getElementById('cfi-factor-cash').textContent = cfiFactor.toFixed(2);
                 document.getElementById('cfee-applied-cash').textContent = monthlyAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                 document.getElementById('cfee-amount-cash').textContent = `$${cfeeAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-                document.getElementById('cash-discount').textContent = `($${cashDiscountValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })})`;
+                document.getElementById('cash-discount').textContent = `($${cashDiscountValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 document.getElementById('total-due-cash').textContent = `$${totalDue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 document.getElementById('cfi-factor-120').textContent = cfiFactor.toFixed(2);
                 document.getElementById('cfee-applied-120').textContent = monthlyAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -1225,8 +1281,8 @@
                     const supplies = parseFloat(form.querySelector('.supplies-input').value.replace(/,/g, '')) || 0;
                     const overhead = parseFloat(form.querySelector('.overhead-input').value.replace(/,/g, '')) || 0;
                     const cfees = parseFloat(form.querySelector('.cfees-input').value.replace(/,/g, '')) || 0;
-                    const codbPercentage = parseFloat(form.querySelector('.codb-input').value) || 0;
-                    const codbCost = (codbPercentage / 100) * revenue;
+                    const codb = parseFloat(form.querySelector('.codb-input').value) || 0;
+                    const codbCost = revenue * (codb / 100);
 
                     totalRevenue += revenue;
                     totalLabor += labor;
@@ -1236,17 +1292,14 @@
                     totalCodbCost += codbCost;
                 });
 
-                const effectiveLabor = isEstimated ? totalRevenue * 0.25 : totalLabor;
-                const effectiveSupplies = isEstimated ? totalRevenue * 0.05 : totalSupplies;
-
-                const totalExpenses = effectiveLabor + effectiveSupplies + totalOverhead + totalCfees + totalCodbCost;
+                const totalExpenses = totalLabor + totalSupplies + totalOverhead + totalCfees + totalCodbCost;
                 const netProfit = totalRevenue - totalExpenses;
-                const netWithoutCfees = netProfit + totalCfees;
-                const netAnnual = netWithoutCfees * 12;
+                const netWithoutCfees = totalRevenue - (totalExpenses - totalCfees);
+                const netAnnual = netProfit * 12;
 
                 document.getElementById('pnl-total-revenue').textContent = `$${totalRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-                document.getElementById('pnl-labor-costs').textContent = `${isEstimated ? '(Estimated) ' : ''}$${effectiveLabor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-                document.getElementById('pnl-supplies-costs').textContent = `${isEstimated ? '(Estimated) ' : ''}$${effectiveSupplies.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-labor-costs').textContent = `$${totalLabor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                document.getElementById('pnl-supplies-costs').textContent = `$${totalSupplies.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 document.getElementById('pnl-overhead-costs').textContent = `$${totalOverhead.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 document.getElementById('pnl-cfees-costs').textContent = `$${totalCfees.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
                 document.getElementById('pnl-codb-costs').textContent = `$${totalCodbCost.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
@@ -1257,104 +1310,134 @@
             });
 
             document.getElementById('pnl-estimate-btn').addEventListener('click', () => {
-                if (isEstimated) {
-                    isEstimated = false;
-                    document.getElementById('pnl-estimate-btn').textContent = 'Estimated Labor/Supplies';
-                    document.querySelectorAll('.pnl-form').forEach((form, index) => {
-                        const laborInput = form.querySelector('.labor-input');
-                        const suppliesInput = form.querySelector('.supplies-input');
-                        const laborLabel = form.querySelector('.labor-input + .estimate-label');
-                        const suppliesLabel = form.querySelector('.supplies-input + .estimate-label');
-                        laborInput.value = originalAccountValues[index].labor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                        suppliesInput.value = originalAccountValues[index].supplies.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                        laborLabel.textContent = '';
-                        suppliesLabel.textContent = '';
-                    });
-                    originalAccountValues = [];
-                } else {
-                    originalAccountValues = [];
-                    document.querySelectorAll('.pnl-form').forEach(form => {
-                        const revenue = parseFloat(form.querySelector('.revenue-input').value.replace(/,/g, '')) || 0;
-                        const labor = parseFloat(form.querySelector('.labor-input').value.replace(/,/g, '')) || 0;
-                        const supplies = parseFloat(form.querySelector('.supplies-input').value.replace(/,/g, '')) || 0;
-                        originalAccountValues.push({ labor, supplies });
-                        const estimatedLabor = revenue * 0.25;
-                        const estimatedSupplies = revenue * 0.05;
-                        const laborInput = form.querySelector('.labor-input');
-                        const suppliesInput = form.querySelector('.supplies-input');
-                        const laborLabel = form.querySelector('.labor-input + .estimate-label');
-                        const suppliesLabel = form.querySelector('.supplies-input + .estimate-label');
+                document.querySelectorAll('.pnl-form').forEach((form, index) => {
+                    const revenueInput = form.querySelector('.revenue-input');
+                    const laborInput = form.querySelector('.labor-input');
+                    const suppliesInput = form.querySelector('.supplies-input');
+                    const laborLabel = form.querySelector('.labor-input').nextElementSibling;
+                    const suppliesLabel = form.querySelector('.supplies-input').nextElementSibling;
+
+                    if (!isEstimated) {
+                        if (!originalAccountValues[index]) {
+                            originalAccountValues[index] = {
+                                labor: laborInput.value,
+                                supplies: suppliesInput.value
+                            };
+                        }
+                        const revenue = parseFloat(revenueInput.value.replace(/,/g, '')) || 0;
+                        const estimatedLabor = revenue * 0.4;
+                        const estimatedSupplies = revenue * 0.1;
                         laborInput.value = estimatedLabor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         suppliesInput.value = estimatedSupplies.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         laborLabel.textContent = '(Estimated)';
                         suppliesLabel.textContent = '(Estimated)';
-                    });
-                    isEstimated = true;
-                    document.getElementById('pnl-estimate-btn').textContent = 'Revert Estimates';
-                }
-                document.getElementById('pnl-calculate-btn').click();
+                    } else {
+                        if (originalAccountValues[index]) {
+                            laborInput.value = originalAccountValues[index].labor;
+                            suppliesInput.value = originalAccountValues[index].supplies;
+                        }
+                        laborLabel.textContent = '';
+                        suppliesLabel.textContent = '';
+                    }
+                });
+                isEstimated = !isEstimated;
             });
 
             document.getElementById('pnl-print-btn').addEventListener('click', () => window.print());
+
             document.getElementById('pnl-download-btn').addEventListener('click', async () => {
-                const canvas = await html2canvas(pnlContent, { backgroundColor: '#ffffff', scale: 2, useCORS: true, scrollY: 0, scrollX: 0 });
+                const actionsSection = document.querySelector('.pnl-actions');
+                actionsSection.style.display = 'none';
+                pnlBackBtn.style.display = 'none';
+                const canvas = await html2canvas(container, { backgroundColor: '#ffffff', scale: 2, useCORS: true });
+                actionsSection.style.display = 'flex';
+                pnlBackBtn.style.display = 'block';
                 const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
                 const pageWidth = 210;
+                const pageHeight = 297;
                 const imgWidth = pageWidth - 20;
                 const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 0;
                 const imgData = canvas.toDataURL('image/png');
-                pdf.addImage(imgData, 'PNG', 10, 0, imgWidth, imgHeight);
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                while (heightLeft > 0) {
+                    position = -(pageHeight - (heightLeft > pageHeight ? pageHeight : heightLeft));
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, heightLeft > pageHeight ? pageHeight : heightLeft);
+                    heightLeft -= pageHeight;
+                }
                 pdf.save('P&L_Statement.pdf');
             });
 
             document.getElementById('manhour-calculate-btn').addEventListener('click', () => {
-                const numberOfPeople = parseFloat(document.getElementById('number-of-people').value) || 0;
+                const numberOfPeople = parseInt(document.getElementById('number-of-people').value) || 0;
                 const totalHours = parseFloat(document.getElementById('total-hours').value) || 0;
                 const totalManHours = numberOfPeople * totalHours;
                 document.getElementById('total-man-hours').textContent = totalManHours.toFixed(1);
             });
 
             // Employee Ad Generator
-            document.getElementById('generate-ad-btn').addEventListener('click', () => {
-                const location = document.getElementById('ad-location').value.trim() || 'TBD';
-                const scheduleType = document.getElementById('ad-schedule-type').value;
-                const scheduleDetails = document.getElementById('ad-schedule-details').value.trim() || 'TBD';
-                const pay = document.getElementById('ad-pay').value.trim() || 'Competitive';
-                const startDate = document.getElementById('ad-start-date').value.trim() || 'ASAP';
-                const perks = document.getElementById('ad-perks').value.trim().split('\n').filter(p => p.trim()).map(p => p.trim());
-                const experience = document.getElementById('ad-experience').value;
-                const transportation = document.getElementById('ad-transportation').value.trim() || 'Reliable transportation preferred';
-                const lifting = parseInt(document.getElementById('ad-lifting').value) || 25;
-                const email = document.getElementById('ad-email').value.trim() || 'hiring@company.com';
+            // Add event listeners for day buttons
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    btn.classList.toggle('selected');
+                });
+            });
 
-                const adOutput = document.getElementById('ad-output');
-                adOutput.innerHTML = `
-                    <h3>Janitorial Worker Opportunity</h3>
-                    <p><strong>Location:</strong> ${location}</p>
-                    <p><strong>Schedule:</strong> ${scheduleType} – ${scheduleDetails}</p>
-                    <p><strong>Pay:</strong> ${pay}</p>
-                    <p><strong>Start Date:</strong> ${startDate}</p>
-                    <h3>Job Description:</h3>
-                    <p>We are seeking a reliable and detail-oriented Janitorial Worker to join our team. This role is responsible for maintaining a clean, safe, and orderly environment by performing routine cleaning tasks such as sweeping, mopping, emptying trash, sanitizing restrooms, and restocking supplies. A strong work ethic and commitment to cleanliness are essential.</p>
-                    <h3>What We Offer:</h3>
-                    <ul>
-                        <li>Stable hours</li>
-                        <li>Weekly pay</li>
-                        ${perks.length ? perks.map(p => `<li>${p}</li>`).join('') : ''}
-                        <li>Training provided</li>
-                        <li>Opportunities for growth</li>
-                        <li>Supportive team environment</li>
-                    </ul>
-                    <h3>Requirements:</h3>
-                    <ul>
-                        <li>Must be dependable and detail-oriented</li>
-                        <li>Ability to follow directions and work independently</li>
-                        <li>${experience}</li>
-                        <li>${transportation}</li>
-                        <li>Able to lift up to ${lifting} lbs and be on feet for extended periods</li>
-                    </ul>
-                    <p><strong>Email:</strong> ${email}</p>
-                `;
+            document.getElementById('generate-ad-btn').addEventListener('click', () => {
+                try {
+                    // Collect form values
+                    const location = document.getElementById('ad-location').value.trim() || 'TBD';
+                    const scheduleType = document.getElementById('ad-schedule-type').value;
+                    const scheduleHours = document.getElementById('ad-schedule-hours').value.trim() || 'TBD';
+                    const pay = document.getElementById('ad-pay').value.trim() || 'Competitive';
+                    const startDate = document.getElementById('ad-start-date').value.trim() || 'ASAP';
+                    const perks = document.getElementById('ad-perks').value.trim().split('\n').filter(p => p.trim()).map(p => p.trim());
+                    const experience = document.getElementById('ad-experience').value;
+                    const requirements = document.getElementById('ad-requirements').value.trim().split('\n').filter(t => t.trim()).map(t => t.trim());
+                    const lifting = parseInt(document.getElementById('ad-lifting').value) || 25;
+                    const email = document.getElementById('ad-email').value.trim() || 'hiring@company.com';
+
+                    // Collect selected days
+                    const selectedDays = Array.from(document.querySelectorAll('.day-btn.selected'))
+                        .map(btn => btn.dataset.day)
+                        .join(', ') || 'Flexible';
+
+                    // Generate ad content
+                    const adOutput = document.getElementById('ad-output');
+                    adOutput.innerHTML = `
+                        <h3>Janitorial Worker Opportunity</h3>
+                        <p><strong>Location:</strong> ${location}</p>
+                        <p><strong>Schedule:</strong> ${scheduleType} (${selectedDays}, ${scheduleHours})</p>
+                        <p><strong>Pay:</strong> $${pay} Per Hour</p>
+                        <p><strong>Start Date:</strong> ${startDate}</p>
+                        <h3>Job Description:</h3>
+                        <p>We are seeking a reliable and detail-oriented Janitorial Worker to join our team. This role is responsible for maintaining a clean, safe, and orderly environment by performing routine cleaning tasks such as sweeping, mopping, emptying trash, sanitizing restrooms, and restocking supplies. A strong work ethic and commitment to cleanliness are essential.</p>
+                        <h3>What We Offer:</h3>
+                        <ul>
+                            <li>Stable ${scheduleType.toLowerCase()} hours</li>
+                            <li>Weekly pay</li>
+                            <li>Training provided</li>
+                            <li>Opportunities for growth</li>
+                            <li>Supportive team environment</li>
+                            ${perks.length ? perks.map(p => `<li>${p}</li>`).join('') : ''}
+                        </ul>
+                        <h3>Requirements:</h3>
+                        <ul>
+                            <li>Must be dependable and detail-oriented</li>
+                            <li>Ability to follow directions and work independently</li>
+                            <li>${experience}</li>                            
+                            <li>Able to lift up to ${lifting} lbs and be on feet for extended periods</li>
+                            ${requirements.length ? requirements.map(t => `<li>${t}</li>`).join('') : ''}
+                        </ul>
+                        <p><strong>Contact Email:</strong> ${email}</p>
+                    `;
+                } catch (error) {
+                    console.error('Error generating ad:', error);
+                    alert('An error occurred while generating the ad. Please check the console for details.');
+                }
             });
         });
     </script>
