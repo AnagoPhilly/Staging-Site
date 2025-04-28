@@ -358,6 +358,19 @@
             background-color: #2980b9;
             color: white;
         }
+        .editable-ad {
+            border: 1px solid #bdc3c7;
+            padding: 10px;
+            min-height: 200px;
+            font-size: 14px;
+            line-height: 1.6;
+            color: #2c3e50;
+            outline: none;
+            border-radius: 5px;
+        }
+        .editable-ad:focus {
+            border-color: #3498db;
+        }
 
         @media screen and (min-width: 768px) {
             .container { padding: 40px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
@@ -445,16 +458,80 @@
                 background-color: #3498db;
                 color: white;
             }
+            .editable-ad {
+                font-size: 16px;
+                padding: 15px;
+                min-height: 300px;
+            }
         }
         @media print {
-            .main-actions, .cfee-actions, .pnl-actions, .manhour-actions, .forecast-actions, .employee-ad-actions, .back-btn, .add-account-btn, .remove-account-btn, .year-selector, .year-buttons { display: none !important; }
-            #cfee-content:not(.hidden) ~ #pnl-content, #cfee-content:not(.hidden) ~ #manhour-content, #cfee-content:not(.hidden) ~ #revenue-content, #cfee-content:not(.hidden) ~ #forecast-content, #cfee-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
-            #pnl-content:not(.hidden) ~ #cfee-content, #pnl-content:not(.hidden) ~ #manhour-content, #pnl-content:not(.hidden) ~ #revenue-content, #pnl-content:not(.hidden) ~ #forecast-content, #pnl-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
-            #manhour-content:not(.hidden) ~ #cfee-content, #manhour-content:not(.hidden) ~ #pnl-content, #manhour-content:not(.hidden) ~ #revenue-content, #manhour-content:not(.hidden) ~ #forecast-content, #manhour-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
-            #revenue-content:not(.hidden) ~ #cfee-content, #revenue-content:not(.hidden) ~ #pnl-content, #revenue-content:not(.hidden) ~ #manhour-content, #revenue-content:not(.hidden) ~ #forecast-content, #revenue-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
-            #forecast-content:not(.hidden) ~ #cfee-content, #forecast-content:not(.hidden) ~ #pnl-content, #forecast-content:not(.hidden) ~ #manhour-content, #forecast-content:not(.hidden) ~ #revenue-content, #forecast-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
-            #employee-ad-content:not(.hidden) ~ #cfee-content, #employee-ad-content:not(.hidden) ~ #pnl-content, #employee-ad-content:not(.hidden) ~ #manhour-content, #employee-ad-content:not(.hidden) ~ #revenue-content, #employee-ad-content:not(.hidden) ~ #forecast-content { display: none !important; }
-            .container { width: 100%; max-width: 680px; padding: 15px; margin: 0 auto; box-shadow: none; border-radius: 0; }
+            body * { visibility: hidden; }
+            #employee-ad-content:not(.hidden) .ad-preview,
+            #employee-ad-content:not(.hidden) .ad-preview * { visibility: visible; }
+            #employee-ad-content:not(.hidden) .employee-ad-form,
+            #employee-ad-content:not(.hidden) .employee-ad-actions,
+            #employee-ad-content:not(.hidden) .employee-ad-section:not(.ad-preview),
+            #employee-ad-content:not(.hidden) .back-btn { display: none !important; }
+            #employee-ad-content:not(.hidden) .ad-preview {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                margin: 0;
+                padding: 10px;
+                box-shadow: none;
+                background-color: #ffffff;
+            }
+            #employee-ad-content:not(.hidden) #editable-ad {
+                border: none;
+                padding: 0;
+                font-size: 12px;
+                line-height: 1.4;
+                min-height: auto;
+            }
+            #employee-ad-content:not(.hidden) #editable-ad h3 {
+                font-size: 14px;
+                margin-bottom: 8px;
+            }
+            #employee-ad-content:not(.hidden) #editable-ad p,
+            #employee-ad-content:not(.hidden) #editable-ad li {
+                font-size: 12px;
+                margin-bottom: 5px;
+            }
+            .main-actions, .cfee-actions, .pnl-actions, .manhour-actions, .forecast-actions, .add-account-btn, .remove-account-btn, .year-selector, .year-buttons { display: none !important; }
+            #cfee-content:not(.hidden) ~ #pnl-content,
+            #cfee-content:not(.hidden) ~ #manhour-content,
+            #cfee-content:not(.hidden) ~ #revenue-content,
+            #cfee-content:not(.hidden) ~ #forecast-content,
+            #cfee-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            #pnl-content:not(.hidden) ~ #cfee-content,
+            #pnl-content:not(.hidden) ~ #manhour-content,
+            #pnl-content:not(.hidden) ~ #revenue-content,
+            #pnl-content:not(.hidden) ~ #forecast-content,
+            #pnl-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            #manhour-content:not(.hidden) ~ #cfee-content,
+            #manhour-content:not(.hidden) ~ #pnl-content,
+            #manhour-content:not(.hidden) ~ #revenue-content,
+            #manhour-content:not(.hidden) ~ #forecast-content,
+            #manhour-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            #revenue-content:not(.hidden) ~ #cfee-content,
+            #revenue-content:not(.hidden) ~ #pnl-content,
+            #revenue-content:not(.hidden) ~ #manhour-content,
+            #revenue-content:not(.hidden) ~ #forecast-content,
+            #revenue-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            #forecast-content:not(.hidden) ~ #cfee-content,
+            #forecast-content:not(.hidden) ~ #pnl-content,
+            #forecast-content:not(.hidden) ~ #manhour-content,
+            #forecast-content:not(.hidden) ~ #revenue-content,
+            #forecast-content:not(.hidden) ~ #employee-ad-content { display: none !important; }
+            .container {
+                width: 100%;
+                max-width: 680px;
+                padding: 15px;
+                margin: 0 auto;
+                box-shadow: none;
+                border-radius: 0;
+            }
             header { border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; margin-bottom: 5px; }
             .logo img { max-width: 160px; }
             h1 { font-size: 22px; }
@@ -477,7 +554,6 @@
                 font-size: 20px;
                 height: 50px;
                 resize: none;
-                
             }
             .accordion {
                 padding: 6px;
@@ -494,7 +570,7 @@
             .ad-preview { padding: 10px; margin-top: 15px; }
             .generated-ad { font-size: 12px; line-height: 1.4; }
             .generated-ad h3 { font-size: 14px; }
-            @page { size: A4 portrait; margin: 2mm; }
+            @page { size: A4 portrait; margin: 10mm; }
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -738,10 +814,13 @@
                 </section>
                 <section class="employee-ad-actions">
                     <button id="generate-ad-btn">Generate Ad</button>
+                    <button id="ad-print-btn">Print</button>
+                    <button id="ad-download-btn">Download</button>
+                    <button id="ad-translate-btn">Translate to Spanish</button>
                 </section>
                 <section class="employee-ad-section ad-preview">
                     <h2>Generated Job Ad</h2>
-                    <div id="ad-output" class="generated-ad"></div>
+                    <div id="editable-ad" class="editable-ad" contenteditable="true"></div>
                 </section>
                 <button id="employee-ad-back-btn" class="back-btn">Back</button>
             </div>
@@ -786,6 +865,9 @@
             const pasteProfitBtn = document.getElementById('paste-profit-btn');
             const pasteCfeesBtn = document.getElementById('paste-cfees-btn');
             const pasteDataInput = document.getElementById('paste-data-input');
+            const adPrintBtn = document.getElementById('ad-print-btn');
+            const adDownloadBtn = document.getElementById('ad-download-btn');
+            const adTranslateBtn = document.getElementById('ad-translate-btn');
 
             // Navigation
             cfeeBtn.addEventListener('click', () => toggleSection(cfeeContent));
@@ -1325,8 +1407,8 @@
                             };
                         }
                         const revenue = parseFloat(revenueInput.value.replace(/,/g, '')) || 0;
-                        const estimatedLabor = revenue * 0.4;
-                        const estimatedSupplies = revenue * 0.1;
+                        const estimatedLabor = revenue * 0.25;
+                        const estimatedSupplies = revenue * 0.05;
                         laborInput.value = estimatedLabor.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         suppliesInput.value = estimatedSupplies.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
                         laborLabel.textContent = '(Estimated)';
@@ -1341,6 +1423,7 @@
                     }
                 });
                 isEstimated = !isEstimated;
+                document.getElementById('pnl-calculate-btn').click();
             });
 
             document.getElementById('pnl-print-btn').addEventListener('click', () => window.print());
@@ -1378,17 +1461,18 @@
                 document.getElementById('total-man-hours').textContent = totalManHours.toFixed(1);
             });
 
-            // Employee Ad Generator
-            // Add event listeners for day buttons
-            document.querySelectorAll('.day-btn').forEach(btn => {
+                        // Employee Ad Generator
+                        document.querySelectorAll('.day-btn').forEach(btn => {
                 btn.addEventListener('click', () => {
                     btn.classList.toggle('selected');
                 });
             });
 
+            let isSpanish = false;
+            let originalAdContent = '';
+
             document.getElementById('generate-ad-btn').addEventListener('click', () => {
                 try {
-                    // Collect form values
                     const location = document.getElementById('ad-location').value.trim() || 'TBD';
                     const scheduleType = document.getElementById('ad-schedule-type').value;
                     const scheduleHours = document.getElementById('ad-schedule-hours').value.trim() || 'TBD';
@@ -1400,44 +1484,124 @@
                     const lifting = parseInt(document.getElementById('ad-lifting').value) || 25;
                     const email = document.getElementById('ad-email').value.trim() || 'hiring@company.com';
 
-                    // Collect selected days
                     const selectedDays = Array.from(document.querySelectorAll('.day-btn.selected'))
                         .map(btn => btn.dataset.day)
                         .join(', ') || 'Flexible';
 
-                    // Generate ad content
-                    const adOutput = document.getElementById('ad-output');
-                    adOutput.innerHTML = `
+                    // Generate ad content for editable div only
+                    const editableAd = document.getElementById('editable-ad');
+                    const adContent = `
                         <h3>Janitorial Worker Opportunity</h3>
                         <p><strong>Location:</strong> ${location}</p>
                         <p><strong>Schedule:</strong> ${scheduleType} (${selectedDays}, ${scheduleHours})</p>
                         <p><strong>Pay:</strong> $${pay} Per Hour</p>
                         <p><strong>Start Date:</strong> ${startDate}</p>
                         <h3>Job Description:</h3>
-                        <p>We are seeking a reliable and detail-oriented Janitorial Worker to join our team. This role is responsible for maintaining a clean, safe, and orderly environment by performing routine cleaning tasks such as sweeping, mopping, emptying trash, sanitizing restrooms, and restocking supplies. A strong work ethic and commitment to cleanliness are essential.</p>
+                        <p>We are seeking a reliable and detail-oriented Janitorial Worker to join our team. This role involves maintaining a clean and safe environment for our clients. If you take pride in your work and are looking for a rewarding opportunity, we want to hear from you!</p>
                         <h3>What We Offer:</h3>
                         <ul>
-                            <li>Stable ${scheduleType.toLowerCase()} hours</li>
-                            <li>Weekly pay</li>
-                            <li>Training provided</li>
-                            <li>Opportunities for growth</li>
-                            <li>Supportive team environment</li>
-                            ${perks.length ? perks.map(p => `<li>${p}</li>`).join('') : ''}
+                            ${perks.length ? perks.map(p => `<li>${p}</li>`).join('') : '<li>Competitive pay and supportive team environment</li>'}
                         </ul>
                         <h3>Requirements:</h3>
                         <ul>
-                            <li>Must be dependable and detail-oriented</li>
-                            <li>Ability to follow directions and work independently</li>
-                            <li>${experience}</li>                            
-                            <li>Able to lift up to ${lifting} lbs and be on feet for extended periods</li>
-                            ${requirements.length ? requirements.map(t => `<li>${t}</li>`).join('') : ''}
+                            <li>${experience}</li>
+                            <li>Ability to lift up to ${lifting} lbs</li>
+                            <li>Reliable transportation</li>
+                            ${requirements.length ? requirements.map(r => `<li>${r}</li>`).join('') : ''}
                         </ul>
-                        <p><strong>Contact Email:</strong> ${email}</p>
+                        <h3>How to Apply:</h3>
+                        <p>Interested candidates, please send your resume or a brief description of your experience to ${email}</a>. We look forward to hearing from you!</p>
                     `;
+                    editableAd.innerHTML = adContent;
+                    originalAdContent = adContent; // Store original English content
+                    isSpanish = false; // Reset to English
+                    document.getElementById('ad-translate-btn').textContent = 'Translate to Spanish';
+                    editableAd.style.display = 'block';
                 } catch (error) {
                     console.error('Error generating ad:', error);
-                    alert('An error occurred while generating the ad. Please check the console for details.');
+                    alert('An error occurred while generating the ad. Please check your inputs and try again.');
                 }
+            });
+
+            document.getElementById('ad-translate-btn').addEventListener('click', () => {
+                const editableAd = document.getElementById('editable-ad');
+                if (!editableAd.innerHTML.trim()) {
+                    alert('Please generate an ad first before translating.');
+                    return;
+                }
+
+                if (!isSpanish) {
+                    // Translate to Spanish
+                    const translations = {
+                        'Janitorial Worker Opportunity': 'Oportunidad de Trabajo para Personal de Limpieza',
+                        'Location:': 'Ubicación:',
+                        'Schedule:': 'Horario:',
+                        'Pay:': 'Pago:',
+                        'Per Hour': 'Por Hora',
+                        'Start Date:': 'Fecha de Inicio:',
+                        'Job Description:': 'Descripción del Puesto:',
+                        'We are seeking a reliable and detail-oriented Janitorial Worker to join our team. This role involves maintaining a clean and safe environment for our clients. If you take pride in your work and are looking for a rewarding opportunity, we want to hear from you!':
+                            'Buscamos un trabajador de limpieza confiable y detallista para unirse a nuestro equipo. Este rol implica mantener un entorno limpio y seguro para nuestros clientes. Si te enorgulleces de tu trabajo y buscas una oportunidad gratificante, ¡queremos saber de ti!',
+                        'What We Offer:': 'Lo Que Ofrecemos:',
+                        'Competitive pay and supportive team environment': 'Pago competitivo y ambiente de equipo de apoyo',
+                        'Requirements:': 'Requisitos:',
+                        'Ability to lift up to': 'Capacidad para levantar hasta',
+                        'lbs': 'libras',
+                        'Reliable transportation': 'Transporte confiable',
+                        'How to Apply:': 'Cómo Postularse:',
+                        'Interested candidates, please send your resume or a brief description of your experience to':
+                            'Los candidatos interesados, por favor envíen su currículum o una breve descripción de su experiencia a',
+                        'We look forward to hearing from you!': '¡Esperamos tener noticias tuyas!'
+                    };
+
+                    let translatedContent = originalAdContent;
+                    Object.keys(translations).forEach(english => {
+                        const spanish = translations[english];
+                        translatedContent = translatedContent.replace(new RegExp(english, 'g'), spanish);
+                    });
+
+                    editableAd.innerHTML = translatedContent;
+                    isSpanish = true;
+                    document.getElementById('ad-translate-btn').textContent = 'Translate to English';
+                } else {
+                    // Revert to English
+                    editableAd.innerHTML = originalAdContent;
+                    isSpanish = false;
+                    document.getElementById('ad-translate-btn').textContent = 'Translate to Spanish';
+                }
+            });
+
+            document.getElementById('ad-print-btn').addEventListener('click', () => window.print());
+
+            document.getElementById('ad-download-btn').addEventListener('click', async () => {
+                const actionsSection = document.querySelector('.employee-ad-actions');
+                const formSection = document.querySelector('.employee-ad-form');
+                const backBtn = document.getElementById('employee-ad-back-btn');
+                actionsSection.style.display = 'none';
+                formSection.style.display = 'none';
+                backBtn.style.display = 'none';
+                const adPreview = document.querySelector('.ad-preview');
+                const canvas = await html2canvas(adPreview, { backgroundColor: '#ffffff', scale: 2, useCORS: true });
+                actionsSection.style.display = 'flex';
+                formSection.style.display = 'block';
+                backBtn.style.display = 'block';
+                const pdf = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+                const pageWidth = 210;
+                const pageHeight = 297;
+                const imgWidth = pageWidth - 20;
+                const imgHeight = (canvas.height * imgWidth) / canvas.width;
+                let heightLeft = imgHeight;
+                let position = 10;
+                const imgData = canvas.toDataURL('image/png');
+                pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+                while (heightLeft > 0) {
+                    position = -(pageHeight - (heightLeft > pageHeight ? pageHeight : heightLeft));
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 10, position, imgWidth, heightLeft > pageHeight ? pageHeight : heightLeft);
+                    heightLeft -= pageHeight;
+                }
+                pdf.save('Job_Ad.pdf');
             });
         });
     </script>
